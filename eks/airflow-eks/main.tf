@@ -1,10 +1,10 @@
 terraform {
 
   cloud {
-    organization = "Nazhan_Telur"
+    organization = "malaysia-ai"
 
     workspaces {
-      name = "airflow-eks-cluster"
+      name = "infra"
     }
   }
 
@@ -61,8 +61,8 @@ resource "aws_default_subnet" "subnet3" {
 }
 
 
-resource "aws_eks_cluster" "test" {
-  name     = "airflow-eks-cluster"
+resource "aws_eks_cluster" "cluster" {
+  name     = "deployment"
   role_arn = aws_iam_role.controlplane.arn
 
   vpc_config {
@@ -101,7 +101,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 }
 
 resource "aws_eks_node_group" "node1" {
-  cluster_name    = aws_eks_cluster.test.name
+  cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node1"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet1.id, aws_default_subnet.subnet2.id, aws_default_subnet.subnet3.id]
@@ -121,7 +121,7 @@ resource "aws_iam_openid_connect_provider" "this" {
   # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
   # https://github.com/terraform-providers/terraform-provider-tls/issues/52
   thumbprint_list = ["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
-  url             = aws_eks_cluster.test.identity.0.oidc.0.issuer
+  url             = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
 }
 
 data "aws_iam_policy_document" "ebs_cni_controller" {
@@ -164,7 +164,7 @@ resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 }
 
 resource "aws_eks_addon" "csi_driver" {
-  cluster_name             = aws_eks_cluster.test.name
+  cluster_name             = aws_eks_cluster.cluster.name
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
