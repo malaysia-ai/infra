@@ -1,7 +1,7 @@
 output "endpoint" {
-  value = aws_eks_cluster.test.endpoint
+  value = aws_eks_cluster.cluster
 }
 
 output "kubeconfig-certificate-authority-data" {
-  value = aws_eks_cluster.test.certificate_authority[0].data
+  value = aws_eks_cluster.cluster.certificate_authority[0].data
 }
