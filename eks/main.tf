@@ -187,8 +187,12 @@ provider "helm" {
     cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.cluster.name]
+      args        = ["eks", "get-token", "--cluster-name", aws_eks_cluster.cluster.name, "--role-arn", var.aws_role_arn, "--region", var.region]
       command     = "aws"
+      env = {
+        "AWS_ACCESS_KEY_ID" = var.aws_access_key,
+        "AWS_SECRET_ACCESS_KEY" = var.aws_secret_key
+    }
     }
   }
 }
