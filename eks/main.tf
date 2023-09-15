@@ -204,8 +204,13 @@ resource "helm_release" "airflow" {
   name       = "airflow"
   repository = "https://airflow.apache.org"
   chart      = "airflow"
+  force_update = true
+  wait_for_jobs = true
+  cleanup_on_fail = true
 
   values = [
     file("${path.module}/airflow.yaml")
   ]
+  
+
 }
