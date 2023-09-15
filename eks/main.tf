@@ -48,6 +48,9 @@ resource "aws_iam_role_policy_attachment" "controlplane_attachment" {
   role       = aws_iam_role.controlplane.name
 }
 
+resource "aws_default_vpc" "default" {
+}
+
 resource "aws_default_subnet" "subnet1" {
   availability_zone = "ap-southeast-1a"
 }
@@ -197,20 +200,44 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "airflow" {
-  depends_on = [
-    aws_eks_cluster.cluster
-  ]
-  name       = "airflow"
-  repository = "https://airflow.apache.org"
-  chart      = "airflow"
-  force_update = true
-  wait_for_jobs = true
-  cleanup_on_fail = true
+resource "helm_release" "nginx" {
+  name       = "nginx"
 
-  values = [
-    file("${path.module}/airflow.yaml")
-  ]
-  
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "nginx"
 
+  set {
+    name  = "controller.service.type"
+    value = "LoadBalancer"
+  }
+
+  set {
+    name  = "controller.service.annotations.\"service.beta.kubernetes.io/aws-load-balancer-ssl-cert\""
+    value = aws_acm_certificate.cert.arn
+  }
+
+  set {
+    name  = "controller.service.annotations.\"service.beta.kubernetes.io/aws-load-balancer-backend-protocol\""
+    value = "tcp"
+  }
+
+  set {
+    name  = "controller.service.annotations.\"service.beta.kubernetes.io/aws-load-balancer-ssl-ports\""
+    value = "https"
+  }
+
+  set {
+    name = "controller.service.targetPorts.https"
+    value = "http"
+  }
+
+  set {
+    name = "controller.config.use-forwarded-headers"
+    value = "true"
+  }
+
+  set {
+    name = "controller.config.proxy-real-ip-cidr"
+    value = aws_default_vpc.default.cidr_block
+  }
 }
