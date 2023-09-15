@@ -182,6 +182,16 @@ resource "aws_acm_certificate" "cert" {
   }
 }
 
+resource "aws_acm_certificate" "mesolitica" {
+  domain_name       = "aws.mesolitica.com"
+  subject_alternative_names = ["*.aws.mesolitica.com"]
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 # https://github.com/bootlabstech/terraform-aws-fully-loaded-eks-cluster/tree/v1.0.7/modules/kubernetes-addons/airflow
 
 provider "helm" {
@@ -211,19 +221,19 @@ resource "helm_release" "nginx" {
     value = "LoadBalancer"
   }
 
-  set {
-    name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-ssl-cert"
-    value = aws_acm_certificate.cert.arn
+  set = {
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
+    value = aws_acm_certificate.mesolitica.arn
   }
 
-  set {
-      name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-backend-protocol"
-      value = "tcp"
+  set = {
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
+    value = "tcp"
   }
 
-  set {
-      name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-ssl-ports"
-      value = "https"
+  set = {
+    name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports"
+    value = "https"
   }
 
   set {
