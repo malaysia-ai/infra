@@ -212,7 +212,7 @@ resource "helm_release" "nginx" {
   }
 
   set {
-    name  = "controller.service.annotations[\"service\.beta.kubernetes\.io/aws-load-balancer-ssl-cert\"]"
+    name  = "controller.service.annotations[\"service.beta.kubernetes.io/aws-load-balancer-ssl-cert\"]"
     value = aws_acm_certificate.cert.arn
   }
 
