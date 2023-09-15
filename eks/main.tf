@@ -221,19 +221,21 @@ resource "helm_release" "nginx" {
     value = "LoadBalancer"
   }
 
-  set = {
+  set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-cert"
     value = aws_acm_certificate.mesolitica.arn
+    type  = "string"
   }
 
-  set = {
+  set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-backend-protocol"
     value = "tcp"
   }
 
-  set = {
+  set {
     name = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-ssl-ports"
     value = "https"
+
   }
 
   set {
@@ -249,5 +251,6 @@ resource "helm_release" "nginx" {
   set {
     name = "controller.config.proxy-real-ip-cidr"
     value = aws_default_vpc.default.cidr_block
+    type  = "string"
   }
 }
