@@ -212,18 +212,18 @@ resource "helm_release" "nginx" {
   }
 
   set {
-    name  = "controller.service.annotations.${replace("service.beta.kubernetes.io/aws-load-balancer-ssl-cert", ".", "-")}"
+    name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-ssl-cert"
     value = aws_acm_certificate.cert.arn
   }
 
   set {
-    name  = "controller.service.annotations.${replace("service.beta.kubernetes.io/aws-load-balancer-backend-protocol", ".", "-")}"
-    value = "tcp"
+      name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-backend-protocol"
+      value = "tcp"
   }
 
   set {
-    name  = "controller.service.annotations.${replace("service.beta.kubernetes.io/aws-load-balancer-ssl-ports", ".", "-")}"
-    value = "https"
+      name  = "controller.service.annotations.service.beta.kubernetes.io/aws-load-balancer-ssl-ports"
+      value = "https"
   }
 
   set {
