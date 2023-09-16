@@ -286,4 +286,9 @@ resource "helm_release" "rancher" {
     name = "global.cattle.psp.enabled"
     value = "false"
   }
+
+  set {
+    name = "tls"
+    value = "external"
+  }
 }
