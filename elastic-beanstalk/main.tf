@@ -1,6 +1,36 @@
 # Define the provider (AWS in this case)
+terraform {
+
+  cloud {
+    organization = "malaysia-ai"
+
+    workspaces {
+      name = "infra-elastic-beanstalk"
+    }
+  }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.16.0"
+    }
+  }
+
+  required_version = ">= 1.1.0"
+}
+
+variable "aws_access_key" {
+  type = string
+}
+
+variable "aws_secret_key" {
+  type = string
+}
+
 provider "aws" {
-  region = "us-east-1" # Change this to your desired AWS region
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  region = "ap-southeast-1" # Change this to your desired AWS region
 }
 
 # Create an Elastic Beanstalk application
