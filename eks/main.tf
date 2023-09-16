@@ -71,6 +71,8 @@ resource "aws_eks_cluster" "cluster" {
   vpc_config {
     subnet_ids = [aws_default_subnet.subnet1.id, aws_default_subnet.subnet2.id, aws_default_subnet.subnet3.id]
   }
+
+  version = "1.26"
 }
 
 resource "aws_iam_role" "nodegroup" {
