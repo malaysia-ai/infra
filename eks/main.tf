@@ -213,6 +213,7 @@ provider "helm" {
 }
 
 resource "helm_release" "nginx" {
+  depends_on = [aws_eks_cluster.cluster]
   name       = "nginx"
 
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -258,6 +259,7 @@ resource "helm_release" "nginx" {
 }
 
 resource "helm_release" "rancher" {
+  depends_on = [aws_eks_cluster.cluster]
   name       = "rancher"
 
   repository = "https://releases.rancher.com/server-charts/latest"
