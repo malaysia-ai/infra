@@ -291,4 +291,9 @@ resource "helm_release" "rancher" {
     name = "tls"
     value = "external"
   }
+
+  set {
+    name = "ingress.extraAnnotations\\.kubernetes\\.io/ingress\\.class"
+    value = "nginx"
+  }
 }
