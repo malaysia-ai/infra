@@ -261,11 +261,12 @@ resource "helm_release" "nginx" {
 resource "helm_release" "rancher" {
   depends_on = [aws_eks_cluster.cluster]
   name       = "rancher"
-
+  
   repository = "https://releases.rancher.com/server-charts/latest"
   chart      = "rancher"
   namespace  = "cattle-system"
   create_namespace = true
+  force_update = true
 
   set {
     name  = "hostname"
