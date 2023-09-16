@@ -14,3 +14,7 @@ variable "region" {
 variable "aws_role_arn" {
   type    = string
 }
+
+variable "rancher_password" {
+  type = string
+}
