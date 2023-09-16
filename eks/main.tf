@@ -277,4 +277,9 @@ resource "helm_release" "rancher" {
     name  = "bootstrapPassword"
     value = var.rancher_password
   }
+
+  set {
+    name = "global.cattle.psp.enabled"
+    value = "false"
+  }
 }
