@@ -596,7 +596,7 @@ workers:
     # Enable persistent volumes
     enabled: true
     # Volume size for worker StatefulSet
-    size: 100Gi
+    size: 10Gi
     # If using a custom storageClass, pass name ref to all statefulSets here
     storageClassName:
     # Execute init container to chown log directory.
@@ -1370,7 +1370,7 @@ triggerer:
     # Enable persistent volumes
     enabled: true
     # Volume size for triggerer StatefulSet
-    size: 100Gi
+    size: 10Gi
     # If using a custom storageClass, pass name ref to all statefulSets here
     storageClassName:
     # Execute init container to chown log directory.
@@ -2377,7 +2377,7 @@ dags:
     # git repo clone url
     # ssh example: git@github.com:apache/airflow.git
     # https example: https://github.com/apache/airflow.git
-    repo: https://github.com/oscarnz/airflow-eks-cluster.git
+    repo: https://github.com/malaysia-ai/apache-airflow.git
     branch: main
     rev: HEAD
     depth: 1
