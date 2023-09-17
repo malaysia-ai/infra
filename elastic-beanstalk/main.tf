@@ -57,6 +57,7 @@ resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
 
 resource "aws_elastic_beanstalk_environment" "tfenv" {
   name                = "eb-fastapi-env"
+  cname_prefix        = "eb-fastapi-env"
   application         = aws_elastic_beanstalk_application.eb_app.name
   solution_stack_name = "64bit Amazon Linux 2023 v4.0.4 running Python 3.11"    # Define current version of the platform
   version_label       = aws_elastic_beanstalk_application_version.eb_app_ver.name
