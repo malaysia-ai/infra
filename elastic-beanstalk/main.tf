@@ -42,7 +42,6 @@ data "aws_s3_bucket" "eb_bucket" {
 data "aws_s3_bucket_object" "eb_bucket_obj" {
   bucket = data.aws_s3_bucket.eb_bucket.id
   key    = "ElasticBeanStalk/app-230917_004110810067.zip" # S3 Bucket path to upload app files
-  source = "app-230917_004110810067.zip"           # Name of the file on GitHub repo to upload to S3
 }
 
 # Define Elastic Beanstalk application
