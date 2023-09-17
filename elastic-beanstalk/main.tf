@@ -33,13 +33,14 @@ provider "aws" {
 }
 
 # Create S3 bucket for Python Flask app
-resource "aws_s3_bucket" "eb_bucket" {
+
+data "aws_s3_bucket" "eb_bucket" {
   bucket = "elasticbeanstalk-ap-southeast-1-896280034829" # Name of S3 bucket to create for Flask app deployment needs to be unique 
 }
 
 # Define App files to be uploaded to S3
-resource "aws_s3_bucket_object" "eb_bucket_obj" {
-  bucket = aws_s3_bucket.eb_bucket.id
+data "aws_s3_bucket_object" "eb_bucket_obj" {
+  bucket = data.aws_s3_bucket.eb_bucket.id
   key    = "ElasticBeanStalk/app-230917_004110810067.zip" # S3 Bucket path to upload app files
   source = "app-230917_004110810067.zip"           # Name of the file on GitHub repo to upload to S3
 }
@@ -52,8 +53,8 @@ resource "aws_elastic_beanstalk_application" "eb_app" {
 
 # Create Elastic Beanstalk environment for application with defining environment settings
 resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
-  bucket      = aws_s3_bucket.eb_bucket.id                    # S3 bucket name
-  key         = aws_s3_bucket_object.eb_bucket_obj.id         # S3 key path 
+  bucket      = data.aws_s3_bucket.eb_bucket.id                    # S3 bucket name
+  key         = data.aws_s3_bucket_object.eb_bucket_obj.id         # S3 key path 
   application = aws_elastic_beanstalk_application.eb_app.name # Elastic Beanstalk application name
   name        = "fastapiv1"                # Version label for Elastic Beanstalk application
 }
