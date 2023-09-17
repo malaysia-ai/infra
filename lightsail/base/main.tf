@@ -26,7 +26,7 @@ variable "aws_secret_key" {
 
 variable "aws_region" {
     type = string
-    default = "ap-southeast-1"
+    default = "ap-southeast-1a"
 }
 
 variable "aws_ssh_key_pair" {
