@@ -41,7 +41,7 @@ data "aws_s3_bucket" "eb_bucket" {
 # Define App files to be uploaded to S3
 data "aws_s3_bucket_object" "eb_bucket_obj" {
   bucket = data.aws_s3_bucket.eb_bucket.id
-  key    = "ElasticBeanStalk/app-230917_004110810067.zip" # S3 Bucket path to upload app files
+  key    = "fastapi/app-230917_004110810067.zip" # S3 Bucket path to upload app files
 }
 
 # Define Elastic Beanstalk application
