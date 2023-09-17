@@ -39,7 +39,7 @@ data "aws_s3_bucket" "eb_bucket" {
 }
 
 # Define App files to be uploaded to S3
-data "aws_s3_bucket_object" "eb_bucket_obj" {
+data "aws_s3_object" "eb_bucket_obj" {
   bucket = data.aws_s3_bucket.eb_bucket.id
   key    = "fastapi/app-230917_004110810067.zip" # S3 Bucket path to upload app files
 }
@@ -53,7 +53,7 @@ resource "aws_elastic_beanstalk_application" "eb_app" {
 # Create Elastic Beanstalk environment for application with defining environment settings
 resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
   bucket      = data.aws_s3_bucket.eb_bucket.id                    # S3 bucket name
-  key         = data.aws_s3_bucket_object.eb_bucket_obj.id         # S3 key path 
+  key         = data.aws_s3_object.eb_bucket_obj.id         # S3 key path 
   application = aws_elastic_beanstalk_application.eb_app.name # Elastic Beanstalk application name
   name        = "fastapiv1"                # Version label for Elastic Beanstalk application
 }
