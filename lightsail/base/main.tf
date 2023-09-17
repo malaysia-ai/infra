@@ -1,10 +1,10 @@
 terraform {
     required_version = ">= 1.1.0"
     cloud {
-        organization = "malaysia-ai"
+        organization = "<organization_name"
 
         workspaces {
-          name = "infra_lightsail_base"
+          name = "<workspace_name>"
         }
     }
 
