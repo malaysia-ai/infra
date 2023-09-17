@@ -44,7 +44,7 @@ data "archive_file" "zip" {
 
 # https://www.youtube.com/watch?v=x2IN28DKK3o
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket = "eb-fastapi"
+  bucket = "eb-fastapi-1"
 }
 resource "aws_s3_object" "s3_object" {
   bucket = aws_s3_bucket.s3_bucket.id
