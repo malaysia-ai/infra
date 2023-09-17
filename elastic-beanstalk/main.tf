@@ -33,12 +33,12 @@ provider "aws" {
 }
 
 # https://www.youtube.com/watch?v=x2IN28DKK3o
-data "aws_s3_bucket" "eb_bucket" {
+data "aws_s3_bucket" "s3_bucket" {
   bucket = "elasticbeanstalk-ap-southeast-1-896280034829"
 }
-data "aws_s3_object" "eb_bucket_obj" {
-  bucket = data.aws_s3_bucket.eb_bucket.id
-  key    = "elasticbeanstalk-ap-southeast-1-896280034829/fastapi/app-230917_004110810067.zip" 
+data "aws_s3_object" "s3_object" {
+  bucket = data.aws_s3_bucket.s3_bucket.id
+  key    = "fastapi/app-230917_004110810067.zip" 
 }
 
 # Define Elastic Beanstalk application
@@ -49,8 +49,8 @@ resource "aws_elastic_beanstalk_application" "eb_app" {
 
 # Create Elastic Beanstalk environment
 resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
-  bucket      = data.aws_s3_bucket.eb_bucket.id                    
-  key         = data.aws_s3_object.eb_bucket_obj.id         
+  bucket      = data.aws_s3_bucket.s3_bucket.id                    
+  key         = data.aws_s3_object.s3_object.id         
   application = aws_elastic_beanstalk_application.eb_app.name 
   name        = "fastapiv1"                
 }
