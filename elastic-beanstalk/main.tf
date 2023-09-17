@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "s3_bucket" {
   bucket = "eb-fastapi"
 }
 resource "aws_s3_object" "s3_object" {
-  bucket = data.aws_s3_bucket.s3_bucket.id
+  bucket = aws_s3_bucket.s3_bucket.id
   key    = "fastapi/fastapi.zip" 
   source = "fastapi.zip"
 }
@@ -49,8 +49,8 @@ resource "aws_elastic_beanstalk_application" "eb_app" {
 
 # Create Elastic Beanstalk environment
 resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
-  bucket      = data.aws_s3_bucket.s3_bucket.id                    
-  key         = data.aws_s3_object.s3_object.id         
+  bucket      = aws_s3_bucket.s3_bucket.id                    
+  key         = aws_s3_object.s3_object.id         
   application = aws_elastic_beanstalk_application.eb_app.name 
   name        = "v1"                
 }
