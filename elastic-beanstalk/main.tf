@@ -33,18 +33,18 @@ provider "aws" {
 }
 
 # https://www.youtube.com/watch?v=x2IN28DKK3o
-data "aws_s3_bucket" "s3_bucket" {
-  bucket = "elasticbeanstalk-ap-southeast-1-896280034829"
+resource "aws_s3_bucket" "s3_bucket" {
+  bucket = "eb-fastapi"
 }
-data "aws_s3_object" "s3_object" {
+resource "aws_s3_object" "s3_object" {
   bucket = data.aws_s3_bucket.s3_bucket.id
-  key    = "fastapi/app-230917_004110810067.zip" 
+  key    = "fastapi/fastapi.zip" 
+  source = "fastapi.zip"
 }
 
 # Define Elastic Beanstalk application
 resource "aws_elastic_beanstalk_application" "eb_app" {
-  name        = "fastapi-meso"
-  description = "simple fastapi app"
+  name        = "eb-fastapi"
 }
 
 # Create Elastic Beanstalk environment
@@ -52,14 +52,13 @@ resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
   bucket      = data.aws_s3_bucket.s3_bucket.id                    
   key         = data.aws_s3_object.s3_object.id         
   application = aws_elastic_beanstalk_application.eb_app.name 
-  name        = "fastapiv1"                
+  name        = "v1"                
 }
 
 resource "aws_elastic_beanstalk_environment" "tfenv" {
-  name                = "fastapi-meso-env"
+  name                = "eb-fastapi-env"
   application         = aws_elastic_beanstalk_application.eb_app.name
   solution_stack_name = "64bit Amazon Linux 2 v3.4.4 running Python 3.8"    # Define current version of the platform
-  description         = "environment for fastapi app"
   version_label       = aws_elastic_beanstalk_application_version.eb_app_ver.name
 
   setting {
