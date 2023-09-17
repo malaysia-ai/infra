@@ -40,7 +40,7 @@ provider "aws" {
 }
 
 resource "aws_lightsail_instance" "light_sail_instance" {
-  name              = "raijin_terraform_instance"
+  name              = "<instance_name>"
   availability_zone = "ap-southeast-1a"
   
   # Available Blueprint Options:
@@ -68,7 +68,7 @@ resource "aws_lightsail_instance" "light_sail_instance" {
 
 # Create a Lightsail static IP
 resource "aws_lightsail_static_ip" "static_ip_creation" {
-  name = "raijin_ssh_key_pair"
+  name = "<static_ip>"
 }
 
 # Attach the static IP to the Lightsail instance
