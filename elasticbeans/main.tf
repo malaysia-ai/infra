@@ -38,8 +38,8 @@ provider "aws" {
 
 data "archive_file" "zip" {
   type        = "zip"
-  source_dir = "${path.module}/fastapi"
-  output_path = "${path.module}/fastapi.zip"
+  source_dir = "fastapi"
+  output_path = "fastapi.zip"
 }
 
 # https://www.youtube.com/watch?v=x2IN28DKK3o
@@ -48,8 +48,8 @@ resource "aws_s3_bucket" "s3_bucket" {
 }
 resource "aws_s3_object" "s3_object" {
   bucket = aws_s3_bucket.s3_bucket.id
-  key    = "fastapi/${data.archive_file.zip}" 
-  source = data.archive_file.zip
+  key    = "fastapi/${data.archive_file.zip.output_path}" 
+  source = data.archive_file.zip.output_path
 }
 
 # Define Elastic Beanstalk application
