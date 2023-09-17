@@ -1,4 +1,3 @@
-# Define the provider (AWS in this case)
 terraform {
 
   cloud {
@@ -33,106 +32,42 @@ provider "aws" {
   region = "ap-southeast-1" # Change this to your desired AWS region
 }
 
-# Create an Elastic Beanstalk application
-resource "aws_elastic_beanstalk_application" "example_app" {
-  name        = "example-app" # Change this to your desired application name
-  description = "Example Elastic Beanstalk Application"
+# Create S3 bucket for Python Flask app
+resource "aws_s3_bucket" "eb_bucket" {
+  bucket = "elasticbeanstalk-ap-southeast-1-896280034829" # Name of S3 bucket to create for Flask app deployment needs to be unique 
 }
 
-# Create an Elastic Beanstalk environment
-resource "aws_elastic_beanstalk_environment" "example_env" {
-  name        = "example-env" # Change this to your desired environment name
-  application = aws_elastic_beanstalk_application.example_app.name
-  solution_stack_name = "64bit Amazon Linux 2 v5.6.0 running Ruby 2.7 (Puma)" # Change this to your desired platform
-  wait_for_ready_timeout = "20m" # Adjust the timeout as needed
-
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "EnvironmentType"
-    value     = "SingleInstance" # Change to "LoadBalanced" for a load-balanced environment
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:environment:process:default"
-    name      = "WebServer"
-    value     = "nginx" # Change this to your desired web server (e.g., "nginx", "apache")
-  }
-
-  # Define environment variables as needed
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "KEY1"
-    value     = "VALUE1"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "KEY2"
-    value     = "VALUE2"
-  }
-
-  # You can add more settings as required
-
-  # Optional: Specify an EC2 key pair for SSH access
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "EC2KeyName"
-    value     = "your-key-pair-name" # Change this to your EC2 key pair name
-  }
-
-  # Optional: Specify security groups and subnets
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "Subnets"
-    value     = "subnet-12345678,subnet-23456789" # Comma-separated list of subnet IDs
-  }
-
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "SecurityGroups"
-    value     = "sg-12345678,sg-23456789" # Comma-separated list of security group IDs
-  }
-
-  # Optional: Attach an RDS database instance (if needed)
-  setting {
-    namespace = "aws:rds:dbinstance"
-    name      = "DBInstanceIdentifier"
-    value     = "your-db-instance-identifier" # Change this to your RDS instance ID
-  }
-
-  # Optional: Auto-scaling configuration (if needed)
-  setting {
-    namespace = "aws:autoscaling:trigger"
-    name      = "MeasureName"
-    value     = "NetworkOut"
-  }
-
-  setting {
-    namespace = "aws:autoscaling:trigger"
-    name      = "Statistic"
-    value     = "Average"
-  }
-
-  setting {
-    namespace = "aws:autoscaling:trigger"
-    name      = "Unit"
-    value     = "Bytes"
-  }
-
-  setting {
-    namespace = "aws:autoscaling:trigger"
-    name      = "UpperThreshold"
-    value     = "20000000" # Adjust as needed
-  }
-
-  setting {
-    namespace = "aws:autoscaling:trigger"
-    name      = "LowerThreshold"
-    value     = "10000000" # Adjust as needed
-  }
+# Define App files to be uploaded to S3
+resource "aws_s3_bucket_object" "eb_bucket_obj" {
+  bucket = aws_s3_bucket.eb_bucket.id
+  key    = "ElasticBeanStalk/app-230917_004110810067.zip" # S3 Bucket path to upload app files
+  source = "app-230917_004110810067.zip"           # Name of the file on GitHub repo to upload to S3
 }
 
-# Output the URL of the Elastic Beanstalk application
-output "eb_url" {
-  value = aws_elastic_beanstalk_environment.example_env.endpoint_url
+# Define Elastic Beanstalk application
+resource "aws_elastic_beanstalk_application" "eb_app" {
+  name        = "fastapi-meso"   # Name of the Elastic Beanstalk application
+  description = "simple fastapi app" # Description of the Elastic Beanstalk application
+}
+
+# Create Elastic Beanstalk environment for application with defining environment settings
+resource "aws_elastic_beanstalk_application_version" "eb_app_ver" {
+  bucket      = aws_s3_bucket.eb_bucket.id                    # S3 bucket name
+  key         = aws_s3_bucket_object.eb_bucket_obj.id         # S3 key path 
+  application = aws_elastic_beanstalk_application.eb_app.name # Elastic Beanstalk application name
+  name        = "fastapiv1"                # Version label for Elastic Beanstalk application
+}
+
+resource "aws_elastic_beanstalk_environment" "tfenv" {
+  name                = "fastapi-meso-env"
+  application         = aws_elastic_beanstalk_application.eb_app.name             # Elastic Beanstalk application name
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.4 running Python 3.8"         # Define current version of the platform
+  description         = "environment for fastapi app"                               # Define environment description
+  version_label       = aws_elastic_beanstalk_application_version.eb_app_ver.name # Define version label
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration" # Define namespace
+    name      = "IamInstanceProfile"                  # Define name
+    value     = "aws-elasticbeanstalk-ec2-role"       # Define value
+  }
 }
