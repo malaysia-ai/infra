@@ -26,7 +26,7 @@ variable "aws_secret_key" {
 
 variable "aws_region" {
     type = string
-    default = "ap-southeast-1a"
+    default = "ap-southeast-1"
 }
 
 variable "aws_ssh_key_pair" {
@@ -41,7 +41,7 @@ provider "aws" {
 
 resource "aws_lightsail_instance" "light_sail_instance" {
   name              = "raijin_terraform_instance"
-  availability_zone = var.aws_region
+  availability_zone = "ap-southeast-1a"
   
   # Available Blueprint Options:
   # - "ubuntu_22_04"
