@@ -32,14 +32,20 @@ provider "aws" {
   region = "ap-southeast-1" # Change this to your desired AWS region
 }
 
+data "archive_file" "zip" {
+  type        = "zip"
+  source_file = "fastapi"
+  output_path = "fastapi.zip"
+}
+
 # https://www.youtube.com/watch?v=x2IN28DKK3o
 resource "aws_s3_bucket" "s3_bucket" {
   bucket = "eb-fastapi"
 }
 resource "aws_s3_object" "s3_object" {
   bucket = aws_s3_bucket.s3_bucket.id
-  key    = "fastapi/fastapi.zip" 
-  source = "fastapi.zip"
+  key    = "fastapi/${data.archive_file.zip}" 
+  source = data.archive_file.zip
 }
 
 # Define Elastic Beanstalk application
