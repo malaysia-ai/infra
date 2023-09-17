@@ -38,7 +38,7 @@ provider "aws" {
 
 data "archive_file" "zip" {
   type        = "zip"
-  source_file = "${path.module}/fastapi"
+  source_dir = "${path.module}/fastapi"
   output_path = "${path.module}/fastapi.zip"
 }
 
