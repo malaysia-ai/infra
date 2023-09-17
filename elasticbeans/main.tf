@@ -38,8 +38,8 @@ provider "aws" {
 
 data "archive_file" "zip" {
   type        = "zip"
-  source_file = "fastapi/"
-  output_path = "fastapi.zip"
+  source_file = "${path.module}/fastapi"
+  output_path = "${path.module}/fastapi.zip"
 }
 
 # https://www.youtube.com/watch?v=x2IN28DKK3o
