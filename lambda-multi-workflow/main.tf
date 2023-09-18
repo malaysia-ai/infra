@@ -104,7 +104,7 @@ resource "aws_iam_role" "iam_for_sfn" {
 
 resource "aws_iam_role_policy_attachment" "lambda-invocation" {
   role       = "${aws_iam_role.iam_for_sfn.name}"
-  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
 }
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
