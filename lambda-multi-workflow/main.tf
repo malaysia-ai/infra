@@ -112,7 +112,7 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
   role_arn = aws_iam_role.iam_for_sfn.arn
   
   depends_on = [ 
-    aws_lambda_function.test_lambda.arn
+    aws_lambda_function.test_lambda
   ]
 
   definition = <<EOF
