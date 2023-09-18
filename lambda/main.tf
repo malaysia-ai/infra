@@ -28,7 +28,7 @@ resource "aws_lambda_function" "test_lambda" {
   role          = aws_iam_role.iam_for_lambda.arn
   handler       = "index.lambda_handler"
 
-  source_code_hash = data.archive_file.zip.lambda.output_base64sha256
+  source_code_hash = data.archive_file.zip.output_base64sha256
 
   runtime = "python3.11"
   timeout = 30
