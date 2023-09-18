@@ -81,3 +81,52 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   role       = aws_iam_role.iam_for_lambda.name
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
+
+## Step Function
+
+data "aws_iam_policy_document" "assume_role_sfn" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["states.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "iam_for_sfn" {
+  name               = "iam_for_sfn"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_sfn.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda-invocation" {
+  role       = "${aws_iam_role.iam_for_sfn.name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaFullAccess"
+}
+
+resource "aws_sfn_state_machine" "sfn_state_machine" {
+  name     = "my-state-machine"
+  role_arn = aws_iam_role.iam_for_sfn.arn
+  
+  depends_on = [ 
+    aws_lambda_function.test_lambda.arn
+  ]
+
+  definition = <<EOF
+{
+  "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Function",
+  "StartAt": "HelloWorld",
+  "States": {
+    "HelloWorld": {
+      "Type": "Task",
+      "Resource": "${aws_lambda_function.test_lambda.arn}",
+      "End": true
+    }
+  }
+}
+EOF
+
+}
