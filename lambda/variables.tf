@@ -7,3 +7,11 @@ locals {
 variable "lambda_function_name" {
   default = "lambda_function_name"
 }
+
+variable "aws_access_key" {
+  type = string
+}
+
+variable "aws_secret_key" {
+  type = string
+}
