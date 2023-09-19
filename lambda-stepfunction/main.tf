@@ -115,18 +115,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     aws_lambda_function.test_lambda
   ]
 
-  definition = <<EOF
-{
-  "Comment": "A Hello World example of the Amazon States Language using an AWS Lambda Function",
-  "StartAt": "HelloWorld",
-  "States": {
-    "HelloWorld": {
-      "Type": "Task",
-      "Resource": "${aws_lambda_function.test_lambda.arn}",
-      "End": true
-    }
-  }
-}
-EOF
+  definition = file("${path.module}/src/input.json")
 
 }
