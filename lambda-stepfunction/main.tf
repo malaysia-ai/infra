@@ -115,6 +115,6 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
     aws_lambda_function.test_lambda
   ]
 
-  definition = file("${path.module}/src/input.json")
+  definition = file("src/input.json")
 
 }
