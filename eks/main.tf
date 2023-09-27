@@ -275,43 +275,43 @@ resource "helm_release" "nginx" {
   }
 }
 
-resource "helm_release" "rancher" {
-  depends_on = [aws_eks_cluster.cluster]
-  name       = "rancher"
+# resource "helm_release" "rancher" {
+#   depends_on = [aws_eks_cluster.cluster]
+#   name       = "rancher"
   
-  repository = "https://releases.rancher.com/server-charts/latest"
-  chart      = "rancher"
-  namespace  = "cattle-system"
-  create_namespace = true
-  force_update = true
+#   repository = "https://releases.rancher.com/server-charts/latest"
+#   chart      = "rancher"
+#   namespace  = "cattle-system"
+#   create_namespace = true
+#   force_update = true
 
-  set {
-    name  = "hostname"
-    value = "rancher.aws.mesolitica.com"
-  }
+#   set {
+#     name  = "hostname"
+#     value = "rancher.aws.mesolitica.com"
+#   }
 
-  set {
-    name  = "replicas"
-    value = "1"
-  }
+#   set {
+#     name  = "replicas"
+#     value = "1"
+#   }
 
-  set {
-    name  = "bootstrapPassword"
-    value = var.rancher_password
-  }
+#   set {
+#     name  = "bootstrapPassword"
+#     value = var.rancher_password
+#   }
 
-  set {
-    name = "global.cattle.psp.enabled"
-    value = "false"
-  }
+#   set {
+#     name = "global.cattle.psp.enabled"
+#     value = "false"
+#   }
 
-  set {
-    name = "tls"
-    value = "external"
-  }
+#   set {
+#     name = "tls"
+#     value = "external"
+#   }
 
-  set {
-    name = "ingress.extraAnnotations\\.kubernetes\\.io/ingress\\.class"
-    value = "nginx"
-  }
-}
+#   set {
+#     name = "ingress.extraAnnotations\\.kubernetes\\.io/ingress\\.class"
+#     value = "nginx"
+#   }
+# }
