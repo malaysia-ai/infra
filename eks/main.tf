@@ -121,6 +121,23 @@ resource "aws_eks_node_group" "node1" {
 
 }
 
+
+resource "aws_eks_node_group" "node2" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = "node2"
+  node_role_arn   = aws_iam_role.nodegroup.arn
+  subnet_ids      = [aws_default_subnet.subnet1.id, aws_default_subnet.subnet2.id, aws_default_subnet.subnet3.id]
+
+  scaling_config {
+    desired_size = 2 
+    max_size     = 2  
+    min_size     = 2  
+  }
+
+  instance_types = ["t3.xlarge"]
+  capacity_type = "SPOT"
+}
+
 resource "aws_iam_openid_connect_provider" "this" {
   client_id_list = ["sts.amazonaws.com"]
   # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
