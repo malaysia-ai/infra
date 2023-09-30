@@ -65,7 +65,7 @@ securityContexts:
 airflowHome: /opt/airflow
 
 # Default airflow repository -- overridden by all the specific images below
-defaultAirflowRepository: apache/airflow
+defaultAirflowRepository: malaysiaai/airflow
 
 # Default airflow tag to deploy
 defaultAirflowTag: "2.7.1"
