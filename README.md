@@ -53,7 +53,8 @@ serviceAccount:
     encrypt_s3_logs: 'False'
 ```
 
-3. create connections under Airflow UI 
+3. create connections under Airflow UI
+
 go to admin->connection and add a new record, in our case we use aws_conn that we have configured in remote_log_conn_id (logging)
 
 
