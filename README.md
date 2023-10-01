@@ -59,6 +59,9 @@ serviceAccount:
     encrypt_s3_logs: 'False'
 ```
 
+3. create connections under Airflow UI 
+
+
 ### Rancher
 
 ```bash
