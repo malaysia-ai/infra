@@ -2275,7 +2275,7 @@ config:
     # id that provides access to the storage location.
     remote_logging: 'True'
     logging_level: 'INFO'
-    remote_base_log_fo  lder: 's3://airflow-eks-learn/log'
+    remote_base_log_folder: 's3://airflow-eks-learn/log'
     remote_log_conn_id: 'aws_conn'
     delete_worker_pods: 'False'
     # Use server-side encryption for logs stored in S3
