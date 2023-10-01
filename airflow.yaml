@@ -542,13 +542,14 @@ workers:
     # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
     # automountServiceAccountToken: true
     # Specifies whether a ServiceAccount should be created
-    create: true
+    create: false
     # The name of the ServiceAccount to use.
     # If not set and create is true, a name is generated using the release name
-    name: ~
+    name: 'airflow-sa'
 
     # Annotations to add to worker kubernetes service account.
-    annotations: {}
+    annotations:
+      eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
 
   # Allow KEDA autoscaling.
   # keda:
@@ -1142,13 +1143,15 @@ webserver:
     # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
     # automountServiceAccountToken: true
     # Specifies whether a ServiceAccount should be created
-    create: true
+    create: false
     # The name of the ServiceAccount to use.
     # If not set and create is true, a name is generated using the release name
-    name: ~
+    name: 'airflow-sa'
 
     # Annotations to add to webserver kubernetes service account.
-    annotations: {}
+    annotations:
+      eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
+
 
   # Webserver pod disruption budget
   podDisruptionBudget:
@@ -2266,7 +2269,17 @@ config:
     colored_console_log: 'False'
     remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
   logging:
-    remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
+    # remote_logging: '{{- ternary "True" "False" .Values.elasticsearch.enabled }}'
+    # Airflow can store logs remotely in AWS S3. Users must supply a remote
+    # location URL (starting with either 's3://...') and an Airflow connection
+    # id that provides access to the storage location.
+    remote_logging: 'True'
+    logging_level: 'INFO'
+    remote_base_log_fo  lder: 's3://airflow-eks-learn/log'
+    remote_log_conn_id: 'aws_conn'
+    delete_worker_pods: 'False'
+    # Use server-side encryption for logs stored in S3
+    encrypt_s3_logs: 'False'
     colored_console_log: 'False'
   metrics:
     statsd_on: '{{ ternary "True" "False" .Values.statsd.enabled }}'
