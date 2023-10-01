@@ -39,7 +39,10 @@ serviceAccount:
     annotations:
         eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
 ```
-
+```bash
+ core:
+    remote_logging: 'True'
+```
 ```bash
  logging:
     remote_logging: 'True'
@@ -51,6 +54,7 @@ serviceAccount:
 ```
 
 3. create connections under Airflow UI 
+go to admin->connection and add a new record, in our case we use aws_conn that we have configured in remote_log_conn_id (logging)
 
 
 ### Rancher
