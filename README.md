@@ -26,15 +26,6 @@ eksctl create iamserviceaccount --cluster=deployment --name=airflow-sa --namespa
 
 2. configure remote logging in yaml file
 ```bash
-logging:
-    remote_logging: 'True'
-    remote_base_log_folder: 's3://airflow-eks-learn'
-    remote_log_conn_id: 'my_s3_conn'
-    # Use server-side encryption for logs stored in S3
-    encrypt_s3_logs: 'False'
-```
-
-```bash
 workers:
     create: false
     name: 'airflow-sa'
@@ -53,7 +44,7 @@ serviceAccount:
  logging:
     remote_logging: 'True'
     logging_level: 'INFO'
-    remote_base_log_fo  lder: 's3://airflow-eks-learn/log'
+    remote_base_log_folder: 's3://airflow-eks-learn/log'
     remote_log_conn_id: 'aws_conn'
     delete_worker_pods: 'False'
     encrypt_s3_logs: 'False'
