@@ -94,10 +94,10 @@ diagnosticMode:
 ##
 image:
   registry: docker.io
-  # repository: malaysiaai/spark
-  # tag: 0.0.1
-  repository: bitnami/spark
-  tag: 3.5.0-debian-11-r0
+  repository: malaysiaai/spark
+  tag: 0.0.1
+  # repository: bitnami/spark
+  # tag: 3.5.0-debian-11-r0
   digest: ""
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -192,12 +192,13 @@ master:
   ##
   containerSecurityContext:
     enabled: true
-    runAsUser: 1001
-    runAsNonRoot: true
+    runAsUser: 0
+    runAsNonRoot: false
     readOnlyRootFilesystem: false
   ## @param master.command Override default container command (useful when using custom images)
   ##
-  command: []
+  command:
+    ["/opt/spark/bin/spark-class", "org.apache.spark.deploy.master.Master"]
   ## @param master.args Override default container args (useful when using custom images)
   ##
   args: []
@@ -473,12 +474,17 @@ worker:
   ##
   containerSecurityContext:
     enabled: true
-    runAsUser: 1001
-    runAsNonRoot: true
+    runAsUser: 0
+    runAsNonRoot: false
     readOnlyRootFilesystem: false
   ## @param worker.command Override default container command (useful when using custom images)
   ##
-  command: []
+  command:
+    [
+      "/opt/spark/bin/spark-class",
+      "org.apache.spark.deploy.worker.Worker",
+      "spark-test-master-svc:7077",
+    ]
   ## @param worker.args Override default container args (useful when using custom images)
   ##
   args: []
