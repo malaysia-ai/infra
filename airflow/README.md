@@ -9,7 +9,7 @@ Let's dive into deploying Airflow end-to-end using kubernetes.
 
 First, we need to put pyspark and java into airflow default image.
 
-This [repository](https://github.com/malaysia-ai/apache-airflo/blob/main/README.md) contains a Dockerfile to build a custom Apache Airflow image that integrates both PySpark and Java.
+This [repository](https://github.com/malaysia-ai/apache-airflow/blob/main/README.md) explains how to build a custom Apache Airflow image that integrates both PySpark and Java.
 
 ### 2. Installing the Helm Chart
 
