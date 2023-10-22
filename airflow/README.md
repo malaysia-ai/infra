@@ -2,8 +2,6 @@
 
 what is airflow? Apache Airflow is an open-source workflow management platform for data engineering pipelines.
 
-requirements : aws eksctl, kubectl, helm 3
-
 ## Deploying Airflow end-to-end
 
 Let's dive into deploying Airflow end-to-end using kubernetes.
