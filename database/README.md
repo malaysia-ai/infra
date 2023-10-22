@@ -3,6 +3,7 @@
 ## Install postgresql
 
 ### 1. Install postgress.
+
 https://ubuntu.com/server/docs/databases-postgresql
 
 `sudo apt install postgres `
@@ -24,6 +25,7 @@ $ psql -d nazhandb
 ## Install and Create database
 
 ### 1. Configure conf file. This allows PostgreSQL to listen on all available IP addresses.
+
 https://blog.devart.com/configure-postgresql-to-allow-remote-connection.html
 
 `sudo nano /etc/postgresql/12/main/postgresql.conf` :
@@ -40,13 +42,12 @@ to
 listen_addresses = '*'
 ```
 
-
 `sudo nano /etc/postgresql/12/main/pg_hba.conf` :
 
-change from 
+change from
 
 ```
-# IPv4 local connections: 
+# IPv4 local connections:
 
 host    all             all             127.0.0.1/32            md5
 ```
@@ -78,4 +79,4 @@ Passphrase: Password set during the public key generation.
 
 # MySQL
 
-## Coming soon
+## Coming soon.
