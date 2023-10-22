@@ -94,6 +94,7 @@ webserver:
     delete_worker_pods: 'False'
     encrypt_s3_logs: 'False'
 ```
+#### - Finally.. Install Helm Chart
 
 You may install the chart after you done with custom image and remote logging configuration.
 
@@ -105,7 +106,7 @@ helm upgrade --install airflow apache-airflow/airflow \
 -f airflow.yaml
 ```
 
-4. Create Amazon Web Services connection
+### 3. Create Amazon Web Services connection
 
 If you want to create an AWS connection in Airflow using the Airflow UI, make sure to set up port forwarding for the Airflow web server to your local machine. This allows you to access the Airflow UI on your local system.
 
@@ -116,11 +117,11 @@ If you want to create an AWS connection in Airflow using the Airflow UI, make su
 4. use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
 ```
 
-### 3. Airflow Ingress Setup
+### 4. Airflow Ingress Setup
 
 This [repository](https://github.com/malaysia-ai/nginx/tree/main/eks/airflow) provides a quick guide on how to set up Ingress for the Airflow service within a Kubernetes cluster.
 
-### 4. Monitoring Airflow with Prometheus and Grafana
+### 5. Monitoring Airflow with Prometheus and Grafana
 
 This [repository](https://github.com/malaysia-ai/alerts) provides steps to set up Prometheus metrics in Airflow and visualize them in Grafana.
 
