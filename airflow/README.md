@@ -4,7 +4,27 @@
 
 Let's dive into deploying Airflow end-to-end using kubernetes.
 
-### Installing the Helm Chart
+
+### 1. Custom Airflow Docker Image with PySpark and Java
+
+First, we need to put pyspark and java into airflow default image.
+
+This [repository](https://github.com/malaysia-ai/apache-airflo/blob/main/README.md) contains a Dockerfile to build a custom Apache Airflow image that integrates both PySpark and Java.
+
+### 2. Installing the Helm Chart
+
+Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry. 
+
+This image will run your Airflow setup stated in [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68): 
+
+
+```bash
+# Default airflow repository -- overridden by all the specific images below
+defaultAirflowRepository: malaysiaai/airflow
+
+# Default airflow tag to deploy
+defaultAirflowTag: "2.7.1"
+```
 
 This chart will bootstrap an Airflow deployment on a Kubernetes cluster using the Helm package manager.
 
