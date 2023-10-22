@@ -79,4 +79,14 @@ Passphrase: Password set during the public key generation.
 
 # MySQL
 
-## Coming soon.
+### Install MySQL
+
+```
+mysql -u root -p
+```
+
+### Install mysql-server package
+
+```
+sudo apt install mysql-server
+```
