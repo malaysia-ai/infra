@@ -28,14 +28,6 @@ defaultAirflowRepository: malaysiaai/airflow
 defaultAirflowTag: "2.7.1"
 ```
 
-To install this chart using Helm 3, run the following commands:
-
-```bash
-helm repo add apache-airflow https://airflow.apache.org
-helm upgrade --install airflow apache-airflow/airflow \
--f airflow.yaml
-```
-
 #### - Using remote logging
 
 1. Create s3 bucket.
@@ -72,6 +64,16 @@ webserver:
     remote_log_conn_id: 'aws_conn'
     delete_worker_pods: 'False'
     encrypt_s3_logs: 'False'
+```
+
+You may install the chart after you done with custom image and remote logging configuration.
+
+To install this chart using Helm 3, run the following commands:
+
+```bash
+helm repo add apache-airflow https://airflow.apache.org
+helm upgrade --install airflow apache-airflow/airflow \
+-f airflow.yaml
 ```
 
 4. Create Amazon Web Services connection
