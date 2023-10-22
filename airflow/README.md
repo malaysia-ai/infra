@@ -1,6 +1,20 @@
 # Airflow
 
-## Helm Installation
+## Deploying Airflow end-to-end
+
+Let's dive into deploying Airflow end-to-end using kubernetes.
+
+### Installing the Helm Chart
+
+This chart will bootstrap an Airflow deployment on a Kubernetes cluster using the Helm package manager.
+
+You need to go to airflow repo first
+
+```bash
+cd airflow
+```
+
+To install this chart using Helm 3, run the following commands:
 
 ```bash
 helm repo add apache-airflow https://airflow.apache.org
