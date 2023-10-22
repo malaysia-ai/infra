@@ -42,9 +42,7 @@ gitSync:
 
 #### - Using custom image
 
-Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry. 
-
-This image will run your Airflow setup stated in [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68): 
+Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68). This image will run your Airflow setup.
 
 
 ```bash
