@@ -44,30 +44,25 @@ helm upgrade --install airflow apache-airflow/airflow \
 eksctl create iamserviceaccount --cluster=deployment --name=airflow-sa --namespace=default --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
 ```
 
-2. configure remote logging in yaml file,
+2. Update Helm Chart airflow.yaml with Service Account
 
 ```yaml
 workers:
-    create: false
-    name: 'airflow-sa'
-    annotations:
-        eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
-```
+    serviceAccount:
+        create: false
+        name: 'airflow-sa'
+        annotations:
+            eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
 
-```yaml
-serviceAccount:
-    create: false
-    name: 'airflow-sa'
-    annotations:
-        eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
-```
-
-```yaml
+webserver:
+    serviceAccount:
+        create: false
+        name: 'airflow-sa'
+        annotations:
+          eks.amazonaws.com/role-arn: 'arn:aws:iam::896280034829:role/eksctl-deployment-addon-iamserviceaccount-de-Role1-DU6JB1S0FU1J'
  core:
     remote_logging: 'True'
-```
 
-```yaml
  logging:
     remote_logging: 'True'
     logging_level: 'INFO'
