@@ -79,3 +79,11 @@ webserver:
 Login to Airflow Web UI 
 
 go to admin -> connection and add a new record, in our case we use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
+
+### 3. Airflow Ingress Setup
+
+This [repository](https://github.com/malaysia-ai/nginx/tree/main/eks/airflow) provides a quick guide on how to set up Ingress for the Airflow service within a Kubernetes cluster.
+
+### 4. Monitoring Airflow with Prometheus and Grafana
+
+This [repository](https://github.com/malaysia-ai/alerts) provides steps to set up Prometheus metrics in Airflow and visualize them in Grafana.
