@@ -38,13 +38,15 @@ helm upgrade --install airflow apache-airflow/airflow \
 
 #### - Using remote logging
 
-1. create iam role to get s3 bucket full access,
+1. Create s3 bucket.
+
+2. This step is creating IAM role and service account using eksctl
 
 ```bash
 eksctl create iamserviceaccount --cluster=deployment --name=airflow-sa --namespace=default --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
 ```
 
-2. Update Helm Chart airflow.yaml with Service Account
+3. Update Helm Chart airflow.yaml with Service Account
 
 ```yaml
 workers:
@@ -72,6 +74,8 @@ webserver:
     encrypt_s3_logs: 'False'
 ```
 
-3. create connections under Airflow UI,
+4. Create Amazon Web Services connection
+
+Login to Airflow Web UI 
 
 go to admin -> connection and add a new record, in our case we use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
