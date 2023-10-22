@@ -40,7 +40,7 @@ Remote logging to Amazon S3 uses an existing Airflow connection to read or write
 eksctl create iamserviceaccount --cluster=deployment --name=airflow-sa --namespace=default --attach-policy-arn=arn:aws:iam::aws:policy/AmazonS3FullAccess --approve
 ```
 
-3. Update Helm Chart airflow.yaml with Service Account
+3. Update Helm Chart [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml) with Service Account
 
 ```yaml
 workers:
