@@ -13,7 +13,7 @@ This [repository](https://github.com/malaysia-ai/apache-airflow/blob/main/README
 
 ### 2. Installing the Helm Chart
 
-#### 1. Using custom image
+#### - Using custom image
 
 Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry. 
 
@@ -36,7 +36,7 @@ helm upgrade --install airflow apache-airflow/airflow \
 -f airflow.yaml
 ```
 
-#### 2. Using remote logging
+#### - Using remote logging
 
 1. create iam role to get s3 bucket full access,
 
