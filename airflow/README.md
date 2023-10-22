@@ -17,6 +17,29 @@ This [repository](https://github.com/malaysia-ai/apache-airflow/blob/main/README
 
 ### 2. Installing the Helm Chart
 
+#### - Mounting DAGs from a private GitHub repo using Git-Sync sidecar
+
+Create a private repo that contain DAGs on GitHub if you have not created one already.
+
+Put repo url under `gitSync` in [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68):
+
+```bash
+gitSync:
+    enabled: true
+
+    # git repo clone url
+    # https example: https://github.com/apache/airflow.git
+    repo: https://github.com/malaysia-ai/apache-airflow.git
+    branch: main
+    rev: HEAD
+    depth: 1
+    # the number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # subpath within the repo where dags are located
+    # should be "" if dags are at repo root
+    subPath: "dags"
+```
+
 #### - Using custom image
 
 Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry. 
