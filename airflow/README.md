@@ -78,9 +78,14 @@ helm upgrade --install airflow apache-airflow/airflow \
 
 4. Create Amazon Web Services connection
 
-Login to Airflow Web UI 
+If you want to create an AWS connection in Airflow using the Airflow UI, make sure to set up port forwarding for the Airflow web server to your local machine. This allows you to access the Airflow UI on your local system.
 
-go to admin -> connection and add a new record, in our case we use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
+```
+1. login to airflow web ui
+2. go to admin -> connection
+3. add a new record
+4. use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
+```
 
 ### 3. Airflow Ingress Setup
 
