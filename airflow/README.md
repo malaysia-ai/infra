@@ -23,7 +23,7 @@ Create a private repo that contain DAGs on GitHub if you have not created one al
 
 Put repo url under `gitSync` in [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68):
 
-```bash
+```yaml
 gitSync:
     enabled: true
     # git repo clone url
