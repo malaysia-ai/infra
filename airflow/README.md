@@ -26,14 +26,6 @@ defaultAirflowRepository: malaysiaai/airflow
 defaultAirflowTag: "2.7.1"
 ```
 
-This chart will bootstrap an Airflow deployment on a Kubernetes cluster using the Helm package manager.
-
-You need to go to airflow repo first
-
-```bash
-cd airflow
-```
-
 To install this chart using Helm 3, run the following commands:
 
 ```bash
