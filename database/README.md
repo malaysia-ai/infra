@@ -1,13 +1,27 @@
 # PostgreSQL
 
-## Install and Create database
+## Install postgresql
 
 ### 1. Install postgress.
 https://ubuntu.com/server/docs/databases-postgresql
 
 `sudo apt install postgres `
 
-## Configure PostgreSQL connection
+## Add database to user nazhan
+
+### 1. Create role nazhan and database into that role
+
+If we want to create a database for "nazhan", we'll first need to create a role with the same name in PostgreSQL, and then create a database for that role.
+
+```
+$ sudo -i -u postgres
+$ createuser nazhan
+$ createdb -O nazhan nazhandb
+$ exit
+$ psql -d nazhandb
+```
+
+## Install and Create database
 
 ### 1. Configure conf file. This allows PostgreSQL to listen on all available IP addresses.
 https://blog.devart.com/configure-postgresql-to-allow-remote-connection.html
@@ -45,15 +59,7 @@ to
 host    all             all             0.0.0.0/0            md5
 ```
 
-### 2. Create a database in PostgreSQL
-
-`createdb malaysiaai-0`
-
-create a new connection to the PostgreSQL server and connect to the database named malaysiaai-0
-
-`psql -d malaysiaai-0`
-
-### 3. Restart postgres service
+### 2. Restart postgres service
 
 `sudo service postgresql restart`
 
