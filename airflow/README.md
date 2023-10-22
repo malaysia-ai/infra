@@ -26,15 +26,10 @@ Put repo url under `gitSync` in [airflow.yaml](https://github.com/malaysia-ai/in
 ```bash
 gitSync:
     enabled: true
-
     # git repo clone url
     # https example: https://github.com/apache/airflow.git
     repo: https://github.com/malaysia-ai/apache-airflow.git
     branch: main
-    rev: HEAD
-    depth: 1
-    # the number of consecutive failures allowed before aborting
-    maxFailures: 0
     # subpath within the repo where dags are located
     # should be "" if dags are at repo root
     subPath: "dags"
