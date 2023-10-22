@@ -30,6 +30,8 @@ defaultAirflowTag: "2.7.1"
 
 #### - Using remote logging
 
+Remote logging to Amazon S3 uses an existing Airflow connection to read or write logs
+
 1. Create s3 bucket.
 
 2. This step is creating IAM role and service account using eksctl
