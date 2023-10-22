@@ -100,3 +100,9 @@ This [repository](https://github.com/malaysia-ai/nginx/tree/main/eks/airflow) pr
 ### 4. Monitoring Airflow with Prometheus and Grafana
 
 This [repository](https://github.com/malaysia-ai/alerts) provides steps to set up Prometheus metrics in Airflow and visualize them in Grafana.
+
+## Contributors
+
+- [@huseinzol05](https://github.com/huseinzol05) (who guided us all the way)
+- [@KamarulAdha](https://github.com/KamarulAdha)
+- [@oscarnz](https://github.com/oscarnz)
