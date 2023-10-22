@@ -89,10 +89,10 @@ If you want to create an AWS connection in Airflow using the Airflow UI, make su
 4. use `aws_conn` that we have configured in `remote_log_conn_id` (logging).
 ```
 
-### 3. Airflow Ingress Setup (Private)
+### 3. Airflow Ingress Setup
 
 This [repository](https://github.com/malaysia-ai/nginx/tree/main/eks/airflow) provides a quick guide on how to set up Ingress for the Airflow service within a Kubernetes cluster.
 
-### 4. Monitoring Airflow with Prometheus and Grafana (Private)
+### 4. Monitoring Airflow with Prometheus and Grafana
 
 This [repository](https://github.com/malaysia-ai/alerts) provides steps to set up Prometheus metrics in Airflow and visualize them in Grafana.
