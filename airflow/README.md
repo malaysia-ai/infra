@@ -120,6 +120,7 @@ This [repository](https://github.com/malaysia-ai/alerts) provides steps to set u
 
 - [x] Ingress
 - [x] Grafana
+- [ ] private repo for kubernetes secret keys
 - [ ] Terraform script
 
 ## Contributors
