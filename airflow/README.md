@@ -116,6 +116,12 @@ This [repository](https://github.com/malaysia-ai/nginx/tree/main/eks/airflow) pr
 
 This [repository](https://github.com/malaysia-ai/alerts) provides steps to set up Prometheus metrics in Airflow and visualize them in Grafana.
 
+## Checklist
+
+- [x] Ingress
+- [x] Grafana
+- [ ] Terraform script
+
 ## Contributors
 
 - [@huseinzol05](https://github.com/huseinzol05) (who guided us all the way)
