@@ -38,7 +38,7 @@ gitSync:
 Before installing the Helm Chart, provide the Docker image you made and uploaded to the registry [airflow.yaml](https://github.com/malaysia-ai/infra/blob/main/airflow/airflow.yaml#L68). This image will run your Airflow setup.
 
 
-```bash
+```yaml
 # Default airflow repository -- overridden by all the specific images below
 defaultAirflowRepository: malaysiaai/airflow
 
