@@ -4,7 +4,7 @@ terraform {
     organization = "malaysia-ai"
 
     workspaces {
-      name = "infra-us-"
+      name = "infra"
     }
   }
 
@@ -52,15 +52,15 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_default_subnet" "subnet1" {
-  availability_zone = "us-east-1a"
+  availability_zone = "ap-southeast-1a"
 }
 
 resource "aws_default_subnet" "subnet2" {
-  availability_zone = "us-east-1b"
+  availability_zone = "ap-southeast-1b"
 }
 
 resource "aws_default_subnet" "subnet3" {
-  availability_zone = "us-east-1c"
+  availability_zone = "ap-southeast-1c"
 }
 
 
@@ -175,8 +175,8 @@ resource "aws_eks_addon" "csi_driver" {
 }
 
 resource "aws_acm_certificate" "mesolitica" {
-  domain_name       = "aws.mesolitica.com"
-  subject_alternative_names = ["*.aws.mesolitica.com"]
+  domain_name       = "aws-us.mesolitica.com"
+  subject_alternative_names = ["*.aws-us.mesolitica.com"]
   validation_method = "DNS"
 
   lifecycle {
