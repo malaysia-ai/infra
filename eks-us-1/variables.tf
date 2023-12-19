@@ -11,10 +11,10 @@ variable "region" {
   default = "us-east-1"
 }
 
-variable "aws_role_arn" {
-  type    = string
-}
+# variable "aws_role_arn" {
+#   type    = string
+# }
 
-variable "rancher_password" {
-  type = string
-}
+# variable "rancher_password" {
+#   type = string
+# }
