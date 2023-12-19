@@ -122,6 +122,7 @@ resource "aws_eks_node_group" "node1" {
 
   capacity_type = "SPOT"
   instance_types = ["g5.xlarge"]
+  disk_size = 100
 
 }
 
