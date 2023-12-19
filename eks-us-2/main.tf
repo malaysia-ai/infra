@@ -4,7 +4,7 @@ terraform {
     organization = "malaysia-ai"
 
     workspaces {
-      name = "eks-us-1"
+      name = "eks-us-west-2-aws"
     }
   }
 
@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "controlplane" {
-  name               = "eks-cluster-us-1"
+  name               = "eks-cluster-us-2"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -63,17 +63,8 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
-# resource "aws_default_subnet" "subnet4" {
-#   availability_zone = "us-west-2d"
-# }
-
-# resource "aws_default_subnet" "subnet6" {
-#   availability_zone = "us-west-2f"
-# }
-
-
 resource "aws_eks_cluster" "cluster" {
-  name     = "deployment-1"
+  name     = "deployment-2"
   role_arn = aws_iam_role.controlplane.arn
 
   vpc_config {
@@ -88,7 +79,7 @@ resource "aws_eks_cluster" "cluster" {
 }
 
 resource "aws_iam_role" "nodegroup" {
-  name = "eks-nodegroup-us-1"
+  name = "eks-nodegroup-us-2"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -170,7 +161,7 @@ data "aws_iam_policy_document" "ebs_cni_controller" {
 }
 
 resource "aws_iam_role" "ebs_cni" {
-  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-1"
+  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-2"
   assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
 
   # tags = module.main.common_tags
