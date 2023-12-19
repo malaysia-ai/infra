@@ -73,7 +73,7 @@ resource "aws_default_subnet" "subnet3" {
 
 
 resource "aws_eks_cluster" "cluster" {
-  name     = "deployment"
+  name     = "deployment-1"
   role_arn = aws_iam_role.controlplane.arn
 
   vpc_config {
@@ -130,7 +130,7 @@ resource "aws_eks_node_group" "node1" {
   }
 
   capacity_type = "SPOT"
-  instance_types = ["g4dn.xlarge"]
+  instance_types = ["g5.xlarge"]
 
 }
 
