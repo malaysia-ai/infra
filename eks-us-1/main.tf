@@ -52,24 +52,24 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_default_subnet" "subnet1" {
-  availability_zone = "us-east-1a"
+  availability_zone = "us-west-2a"
 }
 
 resource "aws_default_subnet" "subnet2" {
-  availability_zone = "us-east-1b"
+  availability_zone = "us-west-2b"
 }
 
 resource "aws_default_subnet" "subnet3" {
-  availability_zone = "us-east-1c"
+  availability_zone = "us-west-2c"
 }
 
-resource "aws_default_subnet" "subnet4" {
-  availability_zone = "us-east-1d"
-}
+# resource "aws_default_subnet" "subnet4" {
+#   availability_zone = "us-west-2d"
+# }
 
-resource "aws_default_subnet" "subnet6" {
-  availability_zone = "us-east-1f"
-}
+# resource "aws_default_subnet" "subnet6" {
+#   availability_zone = "us-west-2f"
+# }
 
 
 resource "aws_eks_cluster" "cluster" {
@@ -80,9 +80,7 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = [
       aws_default_subnet.subnet1.id, 
       aws_default_subnet.subnet2.id, 
-      aws_default_subnet.subnet3.id, 
-      aws_default_subnet.subnet4.id, 
-      aws_default_subnet.subnet6.id
+      aws_default_subnet.subnet3.id
     ]
   }
 
