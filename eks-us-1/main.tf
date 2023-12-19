@@ -67,14 +67,9 @@ resource "aws_default_subnet" "subnet4" {
   availability_zone = "us-east-1d"
 }
 
-resource "aws_default_subnet" "subnet5" {
-  availability_zone = "us-east-1e"
-}
-
 resource "aws_default_subnet" "subnet6" {
   availability_zone = "us-east-1f"
 }
-
 
 
 resource "aws_eks_cluster" "cluster" {
@@ -87,7 +82,6 @@ resource "aws_eks_cluster" "cluster" {
       aws_default_subnet.subnet2.id, 
       aws_default_subnet.subnet3.id, 
       aws_default_subnet.subnet4.id, 
-      aws_default_subnet.subnet5.id, 
       aws_default_subnet.subnet6.id
     ]
   }
