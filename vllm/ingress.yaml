@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jupyter
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/client-max-body-size: 10M
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m
+
+spec:
+  rules:
+    - host: vllm.us1.peacehotel.my
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: vllm-service
+                port:
+                  number: 8000
