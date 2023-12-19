@@ -39,7 +39,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "controlplane" {
-  name               = "eks-cluster"
+  name               = "eks-cluster-us-1"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
@@ -96,7 +96,7 @@ resource "aws_eks_cluster" "cluster" {
 }
 
 resource "aws_iam_role" "nodegroup" {
-  name = "eks-nodegroup"
+  name = "eks-nodegroup-us-1"
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -178,7 +178,7 @@ data "aws_iam_policy_document" "ebs_cni_controller" {
 }
 
 resource "aws_iam_role" "ebs_cni" {
-  name               = "AmazonEKS_EBS_CSI_DriverRole_Data"
+  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-1"
   assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
 
   # tags = module.main.common_tags
