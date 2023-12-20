@@ -36,3 +36,5 @@ aa1225e3830e147808649f717c201da3-201173784.ap-southeast-1.elb.amazonaws.com
 ```
 
 Replace this in CNAME records.
+
+or you may retrieve external ip from nginx services
