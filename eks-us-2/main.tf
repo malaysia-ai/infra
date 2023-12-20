@@ -122,7 +122,7 @@ resource "aws_eks_node_group" "node1" {
 
   ami_type = "AL2_x86_64_GPU"
   capacity_type = "SPOT"
-  instance_types = ["g5.xlarge"]
+  instance_types = ["p4d.24xlarge"]
   disk_size = 100
 
 }
