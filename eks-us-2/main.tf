@@ -120,9 +120,9 @@ resource "aws_eks_node_group" "node1" {
     min_size     = 1
   }
 
-  ami_type = "AL2_x86_64_GPU"
+  ami_type = "BOTTLEROCKET_x86_64"
   capacity_type = "SPOT"
-  instance_types = ["g4ad.8xlarge"]
+  instance_types = ["trn1.2xlarge"]
   disk_size = 100
 
 }
