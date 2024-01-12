@@ -122,7 +122,7 @@ resource "aws_eks_node_group" "node1" {
 
   ami_type = "BOTTLEROCKET_x86_64"
   capacity_type = "SPOT"
-  instance_types = ["trn1.2xlarge"]
+  instance_types = ["inf2.xlarge"]
   disk_size = 100
 
 }
