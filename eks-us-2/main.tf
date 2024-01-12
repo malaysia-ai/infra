@@ -122,7 +122,7 @@ resource "aws_eks_node_group" "node1" {
 
   ami_type = "BOTTLEROCKET_x86_64"
   capacity_type = "SPOT"
-  instance_types = ["inf2.xlarge"]
+  instance_types = ["inf1.xlarge"]
   disk_size = 100
 
 }
@@ -163,14 +163,14 @@ data "aws_iam_policy_document" "ebs_cni_controller" {
 }
 
 resource "aws_iam_role" "ebs_cni" {
-  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-2"
+  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-ii"
   assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
 
   # tags = module.main.common_tags
 }
 
 resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  policy_arn = "arn:aws:iam::896280034829:role/AmazonEKS_EBS_CSI_DriverRole_Data_US"
   role       = aws_iam_role.ebs_cni.name
 }
 
