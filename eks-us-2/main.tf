@@ -108,14 +108,6 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
   role       = aws_iam_role.nodegroup.name
 }
 
-# resource "aws_launch_template" "custom_eks_ami_template" {
-#   name = "custom_amazon-eks-gpu-node-1.26-v20240110"
-
-#   image_id = "ami-0504aba981fafcf9b"
-#   instance_type = "inf2.xlarge"
-
-# }
-
 resource "aws_eks_node_group" "node1" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node1"
