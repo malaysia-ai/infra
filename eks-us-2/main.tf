@@ -125,7 +125,7 @@ resource "aws_eks_node_group" "node1" {
   instance_types = ["inf2.xlarge"]
   disk_size = 100
 
-   launch_template {
+  launch_template {
     version = "ami-0504aba981fafcf9b"
   }
 
