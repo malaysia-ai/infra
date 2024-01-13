@@ -134,8 +134,8 @@ resource "aws_eks_node_group" "node1" {
   disk_size = 100
 
   launch_template {
-    name = custom_eks_ami_template.your_eks_launch_template.name
-    version = custom_eks_ami_template.your_eks_launch_template.latest_version
+    name = aws_launch_template.custom_eks_ami_template.name
+    version = aws_launch_template.custom_eks_ami_template.latest_version
   }
 }
 
