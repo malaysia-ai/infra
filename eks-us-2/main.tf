@@ -126,8 +126,8 @@ resource "aws_eks_node_group" "node1" {
   disk_size = 100
 
   launch_template {
-    id = "ami-0504aba981fafcf9b"
-    version = "1.26.12-20240110"
+    name = "amazon-eks-gpu-node-1.26-v20240110"
+    version = "ami-0504aba981fafcf9b"
   }
 
 }
