@@ -181,8 +181,8 @@ resource "aws_eks_addon" "csi_driver" {
 }
 
 resource "aws_acm_certificate" "mesolitica" {
-  domain_name       = "sg.malaysia-ai.org"
-  subject_alternative_names = ["*.sg.malaysia-ai.org"]
+  domain_name       = "malaysia-ai.org"
+  subject_alternative_names = ["*.malaysia-ai.org"]
   validation_method = "DNS"
 
   lifecycle {
