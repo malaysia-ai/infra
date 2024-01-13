@@ -108,6 +108,14 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
   role       = aws_iam_role.nodegroup.name
 }
 
+# resource "aws_launch_template" "custom_eks_ami_template" {
+#   name = "custom_amazon-eks-gpu-node-1.26-v20240110"
+
+#   image_id = "ami-0504aba981fafcf9b"
+#   instance_type = "inf2.xlarge"
+
+# }
+
 resource "aws_eks_node_group" "node1" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node1"
@@ -120,16 +128,15 @@ resource "aws_eks_node_group" "node1" {
     min_size     = 1
   }
 
-  ami_type = "CUSTOM"
+  ami_type = "AL2_x86_64"
   capacity_type = "SPOT"
-  instance_types = ["inf2.xlarge"]
+  instance_types = ["inf1.xlarge"]
   disk_size = 100
 
-  launch_template {
-    name = "amazon-eks-gpu-node-1.26-v20240110"
-    version = "$Latest"
-  }
-
+  # launch_template {
+  #   name = custom_eks_ami_template.your_eks_launch_template.name
+  #   version = custom_eks_ami_template.your_eks_launch_template.latest_version
+  # }
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
