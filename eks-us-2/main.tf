@@ -120,10 +120,14 @@ resource "aws_eks_node_group" "node1" {
     min_size     = 1
   }
 
-  ami_type = "amazon-eks-gpu-node-1.26-v20240110"
+  ami_type = "CUSTOM"
   capacity_type = "SPOT"
   instance_types = ["inf2.xlarge"]
   disk_size = 100
+
+   launch_template {
+    version = "ami-0504aba981fafcf9b"
+  }
 
 }
 
