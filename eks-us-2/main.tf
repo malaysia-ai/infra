@@ -127,7 +127,7 @@ resource "aws_eks_node_group" "node1" {
 
   launch_template {
     name = "amazon-eks-gpu-node-1.26-v20240110"
-    version = "ami-0504aba981fafcf9b"
+    version = "$Latest"
   }
 
 }
