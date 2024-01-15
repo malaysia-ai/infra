@@ -127,7 +127,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 #
 # }
 
-resource "aws_eks_node_group" "node2" {
+resource "aws_eks_node_group" "node3" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node2"
   node_role_arn   = aws_iam_role.nodegroup.arn
