@@ -171,7 +171,7 @@ resource "aws_eks_node_group" "node6" {
   node_group_name = "node6"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id]
-  labels {
+  labels = {
     arep = owned 
   }
 
