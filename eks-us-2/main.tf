@@ -63,11 +63,6 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
-resource "aws_default_subnet" "subnet4" {
-  availability_zone = "us-west-2d"
-}
-
-
 resource "aws_eks_cluster" "cluster" {
   name     = "deployment-2"
   role_arn = aws_iam_role.controlplane.arn
@@ -76,8 +71,7 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = [
       aws_default_subnet.subnet1.id, 
       aws_default_subnet.subnet2.id, 
-      aws_default_subnet.subnet3.id,
-      aws_default_subnet.subnet4.id
+      aws_default_subnet.subnet3.id
     ]
   }
 
@@ -137,7 +131,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node7"
   node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = [aws_default_subnet.subnet2.id, aws_default_subnet.subnet4.id]
+  subnet_ids      = [aws_default_subnet.subnet2.id]
 
   scaling_config {
     desired_size = 1
