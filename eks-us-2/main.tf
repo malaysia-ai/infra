@@ -168,10 +168,10 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 
 resource "aws_eks_node_group" "node7" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "node6"
+  node_group_name = "node7"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id]
-  
+
   labels = {
     arep = "owned" 
   }
