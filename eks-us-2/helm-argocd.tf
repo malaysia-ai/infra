@@ -5,8 +5,6 @@ resource "kubernetes_namespace" "argocd" {
 }
 
 resource "helm_release" "argocd" {
-    depends_on = [module.eks_blueprints_kubernetes_addons]
-
     name       = "argo-cd"
     chart      = "argo-cd"
     repository = "https://argoproj.github.io/argo-helm"

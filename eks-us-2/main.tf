@@ -77,17 +77,6 @@ resource "aws_eks_cluster" "cluster" {
 
   version = "1.26"
 }
-
-#Create OIDC
-data "tls_certificate" "cluster" {
-  url = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
-}
-resource "aws_iam_openid_connect_provider" "cluster" {
-  client_id_list = ["sts.amazonaws.com"]
-  thumbprint_list = [data.tls_certificate.cluster.certificates.0.sha1_fingerprint]
-  url = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
-}
-
 # Use helm provider
 provider "kubernetes" {
   # experiments {
@@ -184,7 +173,7 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "devops"
   node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = [data.aws_subnet.subnet1.id]
+  subnet_ids      = [aws_default_subnet.subnet2.id]
 
   scaling_config {
     desired_size = 1
