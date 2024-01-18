@@ -12,6 +12,6 @@ resource "helm_release" "argocd" {
     namespace  = kubernetes_namespace.argocd.id
 
     values = [templatefile("argocd-helm/values.yaml", {
-        ssh_key = "${var.github_ssh_key}"
+        ssh_key = "${replace(var.github_ssh_key, "\n", "\\n")}"
     })]
 }
