@@ -12,23 +12,23 @@ dex:
 
 server:
   extraArgs:
-    - --insecure
+    # - --insecure
   ingress:
     enabled: true
     annotations: 
       kubernetes.io/ingress.class: nginx
       nginx.org/client-max-body-size: 10M
       nginx.ingress.kubernetes.io/proxy-body-size: 10m
-      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     hosts:
       - argocd.us.malaysia-ai.org
     tls:
     - hosts:
       - argocd.us.malaysia-ai.org
       secretName: argocd-secret # do not change, this is provided by Argo CD
-    https: false
+    https: true
 configs:
   cm:
     kustomize.buildOptions: --enable-helm
