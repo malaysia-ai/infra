@@ -124,28 +124,27 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
   role       = aws_iam_role.nodegroup.name
 }
 
-# resource "aws_eks_node_group" "node-trainium-1" {
-#   cluster_name    = aws_eks_cluster.cluster.name
-#   node_group_name = "node-trainium-1"
-#   node_role_arn   = aws_iam_role.nodegroup.arn
-#   subnet_ids      = [aws_default_subnet.subnet2.id]
+resource "aws_eks_node_group" "node-trainium-1" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = "node-trainium-1"
+  node_role_arn   = aws_iam_role.nodegroup.arn
+  subnet_ids      = [aws_default_subnet.subnet2.id]
 
-#   labels = {
-#     kamarul = "owned"
-#   }
-#   scaling_config {
-#     desired_size = 1
-#     max_size     = 1
-#     min_size     = 1
-#   }
+  labels = {
+    kamarul = "owned"
+  }
+  scaling_config {
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
+  }
 
-#   ami_type = "AL2_x86_64_GPU"
-#   capacity_type = "SPOT"
-#   instance_types = ["trn1.2xlarge"]
-#   disk_size = 100
+  ami_type = "AL2_x86_64_GPU"
+  capacity_type = "SPOT"
+  instance_types = ["trn1.2xlarge"]
+  disk_size = 100
 
-# }
-
+}
 
 resource "aws_eks_node_group" "node-trainium-2" {
   cluster_name    = aws_eks_cluster.cluster.name
