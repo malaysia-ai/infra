@@ -14,7 +14,7 @@ server:
   extraArgs:
     # - --insecure
   ingress:
-    enabled: true
+    enabled: false
     annotations: 
       kubernetes.io/ingress.class: nginx
       nginx.org/client-max-body-size: 10M
