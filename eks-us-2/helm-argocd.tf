@@ -15,3 +15,6 @@ resource "helm_release" "argocd" {
         ssh_key = "${replace(var.github_ssh_key, "\n", "\\n")}"
     })]
 }
+resource "kubernetes_manifest" "argocd_ingress_configmap" {
+  manifest = yamldecode(file("${path.module}/argocd-helm/ingress.yaml"))
+}
