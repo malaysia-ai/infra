@@ -12,7 +12,7 @@ dex:
 
 server:
   extraArgs:
-    - --insecure
+    # - --insecure
   ingress:
     enabled: true
     annotations: 
@@ -21,6 +21,7 @@ server:
       nginx.ingress.kubernetes.io/proxy-body-size: 10m
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     hosts:
       - argocd.us.malaysia-ai.org
     tls:
