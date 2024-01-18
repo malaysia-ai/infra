@@ -29,7 +29,7 @@ configs:
   cm:
     kustomize.buildOptions: --enable-helm
     url: https://argocd.us.malaysia-ai.org
-    admin.enabled: false
+    # admin.enabled: false
     resource.customizations.actions.apps_Deployment: |
       discovery.lua: |
         actions = {}
@@ -94,24 +94,24 @@ configs:
               obj.spec.suspend = false
           end
           return obj
-    dex.config: |-
-      logger:
-        level: debug
-        format: json
-      connectors:
-      - type: saml
-        name: IAM Identity Center
-        id: iam-identity-center
-        config:
-          ssoURL: https://portal.sso.us-east-1.amazonaws.com/saml/assertion/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
-          logoutURL: https://portal.sso.us-east-1.amazonaws.com/saml/logout/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
-          entityIssuer: https://argocd.us.malaysia-ai.org/api/dex/callback
-          redirectURI: https://argocd.us.malaysia-ai.org/api/dex/callback
-          usernameAttr: email
-          emailAttr: email
-          groupsAttr: group
-          caData: |-
-            LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCakNDQWU2Z0F3SUJBZ0lFRjAreU16QU5CZ2txaGtpRzl3MEJBUXNGQURCRk1SWXdGQVlEVlFRRERBMWgKYldGNmIyNWhkM011WTI5dE1RMHdDd1lEVlFRTERBUkpSRUZUTVE4d0RRWURWUVFLREFaQmJXRjZiMjR4Q3pBSgpCZ05WQkFZVEFsVlRNQjRYRFRJME1ERXhPREF5TlRVMU0xb1hEVEk1TURFeE9EQXlOVFUxTTFvd1JURVdNQlFHCkExVUVBd3dOWVcxaGVtOXVZWGR6TG1OdmJURU5NQXNHQTFVRUN3d0VTVVJCVXpFUE1BMEdBMVVFQ2d3R1FXMWgKZW05dU1Rc3dDUVlEVlFRR0V3SlZVekNDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQgpBTUswVVcvK0xhNktKQk5kYnkxeEI5aWdSaTRDcC9OdEtVYjlBa2RoWDdkSE5NOGF5NmdSUlNkRi9YdHdvd0JLCld1c25sTnpyeUQ2RnFCR0FJOW1jVmNHZU5sNCs3V1d0NGpxU0VpWk14UCt0YlR5U1VWeXpkcEUrSTZmcmNUcXMKdm5JVUlQcmJ4T2JiTFZoektXam9zeFFQNTFYQzJvcmwzaC9OSDE0RlJySjk2RWRQb1pSbDR2T0ppSllEZGdKdQpQRTg1Ky92MXgrR2NPUjNJVXZvTzFEMzZKTTVoL0xGa1ZZY2FDZzAwSk53NllkMXJkNXRXeHpTVTFxLzZjRjNqCmpIbmJ3VjhKQm82eEloeWRUWWhFQmd2YjlSUTVjQzBCVkhUdGFWU1FiemJlVFBsdnIzN1V5OGs0N3V1dXdzRHEKZEd0aFhlS3hFekVDOFlaUzBPUGFXVWtDQXdFQUFUQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFaVzNPeEg4NgoySllMbU8vL2tlYTBkOGk1NmpaL0Evc3I2VjE2NUpQSUF3VDI4V2ZmUTRqcHdMektrUE5Gc1VQWXk0WnpqWGxtClV4MzVyWWZiaTNnbXJ0TzIvOXROVzlrbktJUFNhOVdVZ0lBYS9ueDlpUGlKYlI2QWhzOHJGZS8rRmtxREQ3OTkKRmNJVnYzRUNSZjVEWGYxd0ttdUdNQ0R2cm9acEhOeE5DNWpYZitVR1JSTERjOGg0dE9IaVNZSXdBZmZadHB1WgpRMjhPaU1NdHBjS2MreEROV0Z0RHZCWVlsbnF3c0M3ZjJDQ0hUSGJPR0NQYUY5WCtxaWNubVFOeEVHV20vWGMxClNYbzB1RWJIZ0haUXRpN01PaTJxWnMydWhNeWYxUU1Xc3UySVZLeGhmQ2sxUG1pTVE4NGVCM3RZeDJXdmlaNmMKaGNDN2FRMnlJTFZIanc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
+    # dex.config: |-
+    #   logger:
+    #     level: debug
+    #     format: json
+    #   connectors:
+    #   - type: saml
+    #     name: IAM Identity Center
+    #     id: iam-identity-center
+    #     config:
+    #       ssoURL: https://portal.sso.us-east-1.amazonaws.com/saml/assertion/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
+    #       logoutURL: https://portal.sso.us-east-1.amazonaws.com/saml/logout/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
+    #       entityIssuer: https://argocd.us.malaysia-ai.org/api/dex/callback
+    #       redirectURI: https://argocd.us.malaysia-ai.org/api/dex/callback
+    #       usernameAttr: email
+    #       emailAttr: email
+    #       groupsAttr: group
+    #       caData: |-
+    #         LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCakNDQWU2Z0F3SUJBZ0lFRjAreU16QU5CZ2txaGtpRzl3MEJBUXNGQURCRk1SWXdGQVlEVlFRRERBMWgKYldGNmIyNWhkM011WTI5dE1RMHdDd1lEVlFRTERBUkpSRUZUTVE4d0RRWURWUVFLREFaQmJXRjZiMjR4Q3pBSgpCZ05WQkFZVEFsVlRNQjRYRFRJME1ERXhPREF5TlRVMU0xb1hEVEk1TURFeE9EQXlOVFUxTTFvd1JURVdNQlFHCkExVUVBd3dOWVcxaGVtOXVZWGR6TG1OdmJURU5NQXNHQTFVRUN3d0VTVVJCVXpFUE1BMEdBMVVFQ2d3R1FXMWgKZW05dU1Rc3dDUVlEVlFRR0V3SlZVekNDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQgpBTUswVVcvK0xhNktKQk5kYnkxeEI5aWdSaTRDcC9OdEtVYjlBa2RoWDdkSE5NOGF5NmdSUlNkRi9YdHdvd0JLCld1c25sTnpyeUQ2RnFCR0FJOW1jVmNHZU5sNCs3V1d0NGpxU0VpWk14UCt0YlR5U1VWeXpkcEUrSTZmcmNUcXMKdm5JVUlQcmJ4T2JiTFZoektXam9zeFFQNTFYQzJvcmwzaC9OSDE0RlJySjk2RWRQb1pSbDR2T0ppSllEZGdKdQpQRTg1Ky92MXgrR2NPUjNJVXZvTzFEMzZKTTVoL0xGa1ZZY2FDZzAwSk53NllkMXJkNXRXeHpTVTFxLzZjRjNqCmpIbmJ3VjhKQm82eEloeWRUWWhFQmd2YjlSUTVjQzBCVkhUdGFWU1FiemJlVFBsdnIzN1V5OGs0N3V1dXdzRHEKZEd0aFhlS3hFekVDOFlaUzBPUGFXVWtDQXdFQUFUQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFaVzNPeEg4NgoySllMbU8vL2tlYTBkOGk1NmpaL0Evc3I2VjE2NUpQSUF3VDI4V2ZmUTRqcHdMektrUE5Gc1VQWXk0WnpqWGxtClV4MzVyWWZiaTNnbXJ0TzIvOXROVzlrbktJUFNhOVdVZ0lBYS9ueDlpUGlKYlI2QWhzOHJGZS8rRmtxREQ3OTkKRmNJVnYzRUNSZjVEWGYxd0ttdUdNQ0R2cm9acEhOeE5DNWpYZitVR1JSTERjOGg0dE9IaVNZSXdBZmZadHB1WgpRMjhPaU1NdHBjS2MreEROV0Z0RHZCWVlsbnF3c0M3ZjJDQ0hUSGJPR0NQYUY5WCtxaWNubVFOeEVHV20vWGMxClNYbzB1RWJIZ0haUXRpN01PaTJxWnMydWhNeWYxUU1Xc3UySVZLeGhmQ2sxUG1pTVE4NGVCM3RZeDJXdmlaNmMKaGNDN2FRMnlJTFZIanc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0t
   rbac:
     policy.csv: |
       p, role:readonly, applications, get, */*, allow
@@ -152,6 +152,11 @@ configs:
       g, argocd-admin, role:admin
     policy.default: role:readonly
     scopes: '[groups]'
+  # credentialTemplates:
+  #   ssh-creds:
+  #     url: git@github.com:malaysia-ai
+  #     sshPrivateKey: |
+  #       ${ssh_key}
   repositories:
     private-repo:
       url: git@github.com:malaysia-ai/IaC.git
