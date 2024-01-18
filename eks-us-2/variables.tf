@@ -10,6 +10,10 @@ variable "region" {
   type    = string
   default = "us-west-2"
 }
+variable "github_ssh_key" {
+  description = "Using Adha's private key to allow argocd to access github repo"
+  type        = string
+}
 variable "argocd" {
   description = ""
   type = map(string)
