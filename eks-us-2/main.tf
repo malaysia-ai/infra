@@ -78,6 +78,33 @@ resource "aws_eks_cluster" "cluster" {
   version = "1.26"
 }
 
+#Create OIDC
+data "tls_certificate" "cluster" {
+  url = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
+}
+resource "aws_iam_openid_connect_provider" "cluster" {
+  client_id_list = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.cluster.certificates.0.sha1_fingerprint]
+  url = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
+}
+
+# Use helm provider
+provider "kubernetes" {
+  # experiments {
+  #   manifest_resource = true
+  # }
+  host                   = aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+}
+provider "helm" {
+  debug = true
+  kubernetes {
+    host                   = aws_eks_cluster.cluster.endpoint
+    cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
+    token                  = data.aws_eks_cluster_auth.cluster.token
+   }
+}
 resource "aws_iam_role" "nodegroup" {
   name = "eks-nodegroup-us-2"
 
@@ -151,6 +178,27 @@ resource "aws_eks_node_group" "node-trainium-2" {
   instance_types = ["trn1.2xlarge"]
   disk_size = 100
 
+}
+
+resource "aws_eks_node_group" "devops-nodegroup" {
+  cluster_name    = aws_eks_cluster.cluster.name
+  node_group_name = "devops"
+  node_role_arn   = aws_iam_role.nodegroup.arn
+  subnet_ids      = [data.aws_subnet.subnet1.id]
+
+  scaling_config {
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
+  }
+
+  ami_type       = "BOTTLEROCKET_ARM_64"
+  instance_types = ["r6g.large"]
+  capacity_type  = "ON_DEMAND"
+  disk_size      = "30"
+  labels         = {
+    "devops" = "owned"
+  }
 }
 
 #  resource "aws_eks_node_group" "node7" {
