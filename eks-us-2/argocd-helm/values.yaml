@@ -12,7 +12,7 @@ dex:
 
 server:
   extraArgs:
-    # - --insecure
+    - --insecure
   ingress:
     enabled: true
     annotations: 
