@@ -152,10 +152,6 @@ configs:
       g, argocd-admin, role:admin
     policy.default: role:readonly
     scopes: '[groups]'
-  credentialTemplates:
-    ssh-creds:
-      url: git@github.com:malaysia-ai
-      sshPrivateKey: ${ssh_key}
   repositories:
     private-repo:
       url: git@github.com:malaysia-ai/IaC.git
