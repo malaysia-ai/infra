@@ -146,15 +146,12 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 #
 #}
 
-resource "aws_eks_node_group" "node-a100-1" {
+resource "aws_eks_node_group" "node-a100" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "a100-1"
+  node_group_name = "node-a100"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet1.id, aws_default_subnet.subnet2.id, aws_default_subnet.subnet3.id]
 
-  labels = {
-    a1002 = "owned"
-  }
   scaling_config {
     desired_size = 1
     max_size     = 1
