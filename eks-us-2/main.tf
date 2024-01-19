@@ -150,7 +150,7 @@ resource "aws_eks_node_group" "node-a100-1" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "a100-1"
   node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = [aws_default_subnet.subnet2.id]
+  subnet_ids      = [aws_default_subnet.subnet1.id, aws_default_subnet.subnet2.id, aws_default_subnet.subnet3.id]
 
   labels = {
     a1002 = "owned"
@@ -162,29 +162,7 @@ resource "aws_eks_node_group" "node-a100-1" {
   }
 
   ami_type = "AL2_x86_64_GPU"
-  capacity_type = "SPOT"
-  instance_types = ["p4de.24xlarge"]
-  disk_size = 100
-
-}
-
-resource "aws_eks_node_group" "node-a100-2" {
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "a100-2"
-  node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = [aws_default_subnet.subnet2.id]
-
-  labels = {
-    a1002 = "owned"
-  }
-  scaling_config {
-    desired_size = 1
-    max_size     = 1
-    min_size     = 1
-  }
-
-  ami_type = "AL2_x86_64_GPU"
-  capacity_type = "SPOT"
+  capacity_type = "ON_DEMAND"
   instance_types = ["p4d.24xlarge"]
   disk_size = 100
 
