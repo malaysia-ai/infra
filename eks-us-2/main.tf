@@ -138,6 +138,41 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
   role       = aws_iam_role.nodegroup.name
 }
 
+resource "aws_eks_addon" "vpc-cni-addons" {
+  cluster_name                = aws_eks_cluster.deplotment-3.name
+  addon_name                  = "vpc-cni"
+  # addon_version               = "v1.16.0-eksbuild.1"
+  resolve_conflicts_on_create = "OVERWRITE"  # Specify how conflicts should be resolved
+  resolve_conflicts_on_update = "OVERWRITE"  # Specify how conflicts should be resolved
+
+  configuration_values = jsonencode({
+    # most_recent = true  
+    # before_compute           = true
+    env = {
+      # Reference docs https://docs.aws.amazon.com/eks/latest/userguide/cni-increase-ip-addresses.html
+      # ENABLE_PREFIX_DELEGATION = "true"
+      # WARM_PREFIX_TARGET="1"
+      # WARM_IP_TARGET="5"
+      # MINIMUM_IP_TARGET="25"
+      # WARM_IP_TARGET       = "5"
+      # MINIMUM_IP_TARGET       = "20"
+    }
+  })
+}
+
+resource "aws_eks_addon" "kube-proxy-addons" {
+  cluster_name                = aws_eks_cluster.deplotment-3.name
+  addon_name                  = "kube-proxy"
+}
+resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
+  cluster_name                = aws_eks_cluster.deplotment-3.name
+  addon_name                  = "aws-ebs-csi-driver"
+}
+resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
+  cluster_name                = aws_eks_cluster.deplotment-3.name
+  addon_name                  = "aws-efs-csi-driver"
+}
+
 #resource "aws_eks_node_group" "node-trainium-1" {
 #  cluster_name    = aws_eks_cluster.cluster.name
 #  node_group_name = "node-trainium-1"
@@ -202,7 +237,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 # }
 
 resource "aws_eks_node_group" "devops-nodegroup" {
-  cluster_name    = aws_eks_cluster.cluster.name
+  cluster_name    = aws_eks_cluster.deployment-3.name
   node_group_name = "devops"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id]
