@@ -139,7 +139,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 }
 
 resource "aws_eks_addon" "vpc-cni-addons" {
-  cluster_name                = aws_eks_cluster.deplotment-3.name
+  cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "vpc-cni"
   # addon_version               = "v1.16.0-eksbuild.1"
   resolve_conflicts_on_create = "OVERWRITE"  # Specify how conflicts should be resolved
@@ -161,15 +161,15 @@ resource "aws_eks_addon" "vpc-cni-addons" {
 }
 
 resource "aws_eks_addon" "kube-proxy-addons" {
-  cluster_name                = aws_eks_cluster.deplotment-3.name
+  cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "kube-proxy"
 }
 resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
-  cluster_name                = aws_eks_cluster.deplotment-3.name
+  cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "aws-ebs-csi-driver"
 }
 resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
-  cluster_name                = aws_eks_cluster.deplotment-3.name
+  cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "aws-efs-csi-driver"
 }
 
