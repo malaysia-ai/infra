@@ -96,16 +96,16 @@ provider "kubernetes" {
   # experiments {
   #   manifest_resource = true
   # }
-  host                   = aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
+  host                   = aws_eks_cluster.deployment-3.endpoint
+  cluster_ca_certificate = base64decode(aws_eks_cluster.deployment-3.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.deployment-3.token
 }
 provider "helm" {
   debug = true
   kubernetes {
-    host                   = aws_eks_cluster.cluster.endpoint
-    cluster_ca_certificate = base64decode(aws_eks_cluster.cluster.certificate_authority.0.data)
-    token                  = data.aws_eks_cluster_auth.cluster.token
+    host                   = aws_eks_cluster.deployment-3.endpoint
+    cluster_ca_certificate = base64decode(aws_eks_cluster.deployment-3.certificate_authority.0.data)
+    token                  = data.aws_eks_cluster_auth.deployment-3.token
    }
 }
 resource "aws_iam_role" "nodegroup" {
@@ -247,6 +247,13 @@ resource "aws_iam_openid_connect_provider" "this" {
   # https://github.com/terraform-providers/terraform-provider-tls/issues/52
   thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
+}
+resource "aws_iam_openid_connect_provider" "deployment-3" {
+  client_id_list = ["sts.amazonaws.com"]
+  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
+  # https://github.com/terraform-providers/terraform-provider-tls/issues/52
+  thumbprint_list = [data.tls_certificate.deployment-3.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.deployment-3.identity.0.oidc.0.issuer
 }
 
 data "aws_iam_policy_document" "ebs_cni_controller" {
