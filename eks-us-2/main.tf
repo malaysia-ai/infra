@@ -240,7 +240,6 @@ resource "aws_eks_node_group" "node-trainium-3" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node-trainium-3"
   node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = [aws_default_subnet.subnet2.id]
 
   labels = {
     kamarul = "owned"
