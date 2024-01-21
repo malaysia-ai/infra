@@ -75,8 +75,7 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = [
       aws_default_subnet.subnet1.id, 
       aws_default_subnet.subnet2.id, 
-      aws_default_subnet.subnet3.id,
-      aws_default_subnet.subnet4.id
+      aws_default_subnet.subnet3.id
     ]
   }
 
@@ -96,6 +95,25 @@ resource "aws_eks_cluster" "deployment-3" {
 
   version = "1.28"
 }
+
+
+resource "aws_eks_cluster" "deployment-4" {
+  name     = "deployment-4"
+  role_arn = aws_iam_role.controlplane.arn
+
+  vpc_config {
+    subnet_ids = [
+      aws_default_subnet.subnet1.id, 
+      aws_default_subnet.subnet2.id, 
+      aws_default_subnet.subnet3.id,
+      aws_default_subnet.subnet4.id,
+    ]
+  }
+
+  version = "1.26"
+}
+
+
 # Use helm provider
 provider "kubernetes" {
   # experiments {
@@ -242,7 +260,7 @@ resource "aws_eks_node_group" "node-trainium-2" {
 }
 
 resource "aws_eks_node_group" "node-trainium-3" {
-  cluster_name    = aws_eks_cluster.cluster.name
+  cluster_name    = aws_eks_cluster.deployment-4.name
   node_group_name = "node-trainium-3"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id, aws_default_subnet.subnet4.id]
@@ -311,6 +329,7 @@ resource "aws_iam_openid_connect_provider" "this" {
   thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
   url             = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
 }
+
 resource "aws_iam_openid_connect_provider" "deployment-3" {
   client_id_list = ["sts.amazonaws.com"]
   # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
@@ -319,7 +338,7 @@ resource "aws_iam_openid_connect_provider" "deployment-3" {
   url             = aws_eks_cluster.deployment-3.identity.0.oidc.0.issuer
 }
 
-data "aws_iam_policy_document" "ebs_cni_controller" {
+data "aws_iam_policy_document" "ebs_cni_controller-dep-4" {
   statement {
     sid = "EBSCNIAssumeRole"
 
@@ -360,6 +379,12 @@ resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 
 resource "aws_eks_addon" "csi_driver" {
   cluster_name             = aws_eks_cluster.cluster.name
+  addon_name               = "aws-ebs-csi-driver"
+  service_account_role_arn = aws_iam_role.ebs_cni.arn
+}
+
+resource "aws_eks_addon" "csi_driver-4" {
+  cluster_name             = aws_eks_cluster.deployment-4.name
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
