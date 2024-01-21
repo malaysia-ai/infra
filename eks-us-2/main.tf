@@ -63,7 +63,7 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
-resource "aws_default_subnet" "subnet4 {
+resource "aws_default_subnet" "subnet4" {
   availability_zone = "us-west-2d"
 }
 
