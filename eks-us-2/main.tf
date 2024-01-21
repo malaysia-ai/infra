@@ -216,7 +216,7 @@ resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
 
 resource "aws_eks_node_group" "node-trainium-2" {
   cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "node-trainium-2"
+  node_group_name = "node-trainium-3"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id]
 
@@ -231,7 +231,7 @@ resource "aws_eks_node_group" "node-trainium-2" {
 
   ami_type = "AL2_x86_64_GPU"
   capacity_type = "SPOT"
-  instance_types = ["trn1.2xlarge"]
+  instance_types = ["trn1.32xlarge"]
   disk_size = 100
 
 }
