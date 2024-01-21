@@ -338,7 +338,7 @@ resource "aws_iam_openid_connect_provider" "deployment-3" {
   url             = aws_eks_cluster.deployment-3.identity.0.oidc.0.issuer
 }
 
-data "aws_iam_policy_document" "ebs_cni_controller-dep-4" {
+data "aws_iam_policy_document" "ebs_cni_controller" {
   statement {
     sid = "EBSCNIAssumeRole"
 
