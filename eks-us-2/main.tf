@@ -63,6 +63,10 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
+resource "aws_default_subnet" "subnet4 {
+  availability_zone = "us-west-2d"
+}
+
 resource "aws_eks_cluster" "cluster" {
   name     = "deployment-2"
   role_arn = aws_iam_role.controlplane.arn
@@ -71,7 +75,8 @@ resource "aws_eks_cluster" "cluster" {
     subnet_ids = [
       aws_default_subnet.subnet1.id, 
       aws_default_subnet.subnet2.id, 
-      aws_default_subnet.subnet3.id
+      aws_default_subnet.subnet3.id,
+      aws_default_subnet.subnet4.id
     ]
   }
 
@@ -240,7 +245,7 @@ resource "aws_eks_node_group" "node-trainium-3" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node-trainium-3"
   node_role_arn   = aws_iam_role.nodegroup.arn
-  subnet_ids      = []
+  subnet_ids      = [aws_default_subnet.subnet2.id, aws_default_subnet.subnet4.id]
 
   labels = {
     kamarul = "owned"
