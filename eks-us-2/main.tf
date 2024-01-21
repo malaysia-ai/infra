@@ -230,7 +230,7 @@ resource "aws_eks_node_group" "node-trainium-3" {
   }
 
   ami_type = "AL2_x86_64_GPU"
-  capacity_type = "SPOT"
+  capacity_type = "ON_DEMAND"
   instance_types = ["trn1.32xlarge"]
   disk_size = 100
 
