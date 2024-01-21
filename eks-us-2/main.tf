@@ -214,7 +214,7 @@ resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
 
 # }
 
-resource "aws_eks_node_group" "node-trainium-2" {
+resource "aws_eks_node_group" "node-trainium-3" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node-trainium-3"
   node_role_arn   = aws_iam_role.nodegroup.arn
