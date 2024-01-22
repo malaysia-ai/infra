@@ -25,16 +25,16 @@ server:
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     hosts:
-      - argocd.us.malaysia-ai.org
+      - argocd.us-west-2.malaysia-ai.org
     tls:
     - hosts:
-      - argocd.us.malaysia-ai.org
+      - argocd.us-west-2.malaysia-ai.org
       secretName: argocd-secret # do not change, this is provided by Argo CD
     https: true
 configs:
   cm:
     kustomize.buildOptions: --enable-helm
-    url: https://argocd.us.malaysia-ai.org
+    url: https://argocd.us-west-2.malaysia-ai.org
     admin.enabled: false
     resource.customizations.actions.apps_Deployment: |
       discovery.lua: |
@@ -111,8 +111,8 @@ configs:
         config:
           ssoURL: https://portal.sso.us-east-1.amazonaws.com/saml/assertion/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
           logoutURL: https://portal.sso.us-east-1.amazonaws.com/saml/logout/ODk2MjgwMDM0ODI5X2lucy0wOTlhYTRkMzI0NTRlODUw
-          entityIssuer: https://argocd.us.malaysia-ai.org/api/dex/callback
-          redirectURI: https://argocd.us.malaysia-ai.org/api/dex/callback
+          entityIssuer: https://argocd.us-west-2.malaysia-ai.org/api/dex/callback
+          redirectURI: https://argocd.us-west-2.malaysia-ai.org/api/dex/callback
           usernameAttr: email
           emailAttr: email
           groupsAttr: group
