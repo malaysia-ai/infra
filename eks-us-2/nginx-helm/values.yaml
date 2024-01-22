@@ -1,0 +1,54 @@
+controller:
+  config:
+    use-forwarded-headers: true
+    compute-full-forwarded-for: true
+    enable-real-ip: true
+    use-proxy-protocol: true
+    real-ip-header: "proxy_protocol"
+  service:
+    externalTrafficPolicy: Local
+    ports:
+      http      : 80
+      https     : 443
+    targetPorts:
+      http      : http
+      https     : https
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+      # Enable proxy protocol.
+      # service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
+      # Specify whether the DigitalOcean Load Balancer should pass encrypted data to backend Droplets.
+      # service.beta.kubernetes.io/do-loadbalancer-tls-passthrough: "true"
+  extraArgs:
+    enable-ssl-passthrough: true
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: "topology.kubernetes.io/zone"
+      whenUnsatisfiable: ScheduleAnyway
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/component: controller
+          app.kubernetes.io/name: ingress-nginx
+      matchLabelKeys:
+        - pod-template-hash
+  nodeSelector:
+    kubernetes.io/os: linux
+    devops: owned
+  resources:
+    requests:
+      cpu: 100m
+      memory: 90Mi
+  replicaCount: 1
+  autoscaling:
+    enabled: true
+    annotations: {}
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+  # config:
+  #   use-proxy-protocol: "true"
