@@ -28,16 +28,43 @@ resource "kubernetes_secret" "cloudflare-api-key-secret" {
     }
 
 }
-# resource "kubernetes_manifest" "cloudflare-api-key-secret" {
-#   depends_on = [resource.helm_release.cert-manager]
-#   manifest = yamldecode(templatefile("cert-manager-helm/cloudflare-api-key-secret.yaml", {
-#     cloudflare_api_key = var.cloudflare_api_key,
-#     namespace = kubernetes_namespace.cert-manager.id
-#   }))
-# }
+
 # resource "kubernetes_manifest" "cluster-issuer" {
 #   depends_on = [resource.helm_release.cert-manager]
 #   manifest = yamldecode(templatefile("cert-manager-helm/cluster-issuer.yaml", {
 #     namespace = kubernetes_namespace.cert-manager.id
 #   }))
 # }
+
+resource "kubernetes_manifest" "cert-manager-letsencrypt-production-cloudflare" {
+  manifest = {
+    "apiVersion" = "cert-manager.io/v1"
+    "kind" = "ClusterIssuer"
+    "metadata" = {
+      "name" = "cert-manager-letsencrypt-production-cloudflare"
+      "namespace" = kubernetes_namespace.cert-manager.id
+    }
+    "spec" = {
+      "acme" = {
+        "email" = "adhasahar97@gmail.com"
+        "privateKeySecretRef" = {
+          "name" = "cert-manager-letsencrypt-production-cloudflare"
+        }
+        "server" = "https://acme-v02.api.letsencrypt.org/directory"
+        "solvers" = [
+          {
+            "dns01" = {
+              "cloudflare" = {
+                "email" = "adhasahar97@gmail.com"
+                "apiKeySecretRef" = {
+                    "name" = "cloudflare-api-key-secret"
+                    "key" = "api-key"
+                }
+              }
+            }
+          },
+        ]
+      }
+    }
+  }
+}
