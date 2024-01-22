@@ -156,12 +156,13 @@ configs:
     policy.default: role:readonly
     scopes: '[groups]'
   credentialTemplates:
-    ssh-creds:
-      url: git@github.com:malaysia-ai
-      sshPrivateKey: ${ssh_key}
+    https-creds:
+      url: https://github.com/malaysia-ai
+      username: argocd-user
+      password: ${argocd_pan}
   repositories:
-    private-repo:
-      url: git@github.com:malaysia-ai/argocd.git
+    argocd:
+      url: https://github.com/malaysia-ai/argocd
     docker-registry:
       url: registry-1.docker.io
       username: "docker"

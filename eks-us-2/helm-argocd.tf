@@ -12,7 +12,7 @@ resource "helm_release" "argocd" {
     namespace  = kubernetes_namespace.argocd.id
 
     values = [templatefile("argocd-helm/values.yaml", {
-        ssh_key = "${replace(var.github_ssh_key, "\n", "\\n")}"
+        argocd_pan = "${replace(var.argocd_pan, "\n", "\\n")}"
     })]
 }
 # resource "kubernetes_manifest" "argocd_ingress_configmap" {
