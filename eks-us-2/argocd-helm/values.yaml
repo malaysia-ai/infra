@@ -14,7 +14,7 @@ server:
   extraArgs:
     # - --insecure
   ingress:
-    enabled: false
+    enabled: true
     annotations: 
       cert-manager.io/cluster-issuer: cert-manager-letsencrypt-production-cloudflare
       kubernetes.io/tls-acme: "true"
