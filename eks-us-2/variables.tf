@@ -10,10 +10,6 @@ variable "region" {
   type    = string
   default = "us-west-2"
 }
-variable "github_ssh_key" {
-  description = "Using Adha's private key to allow argocd to access github repo"
-  type        = string
-}
 variable "argocd_pan" {
   description = "Github personal access token for accessing argocd repo"
   type        = string

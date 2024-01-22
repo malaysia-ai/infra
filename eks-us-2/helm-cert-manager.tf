@@ -12,7 +12,7 @@ resource "helm_release" "cert-manager" {
     namespace  = kubernetes_namespace.cert-manager.id
 
     values = [templatefile("cert-manager-helm/values.yaml", {
-        ssh_key = "${replace(var.github_ssh_key, "\n", "\\n")}"
+
     })]
 }
 
