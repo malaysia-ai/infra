@@ -177,6 +177,11 @@ resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
   cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "aws-efs-csi-driver"
 }
+resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
+  cluster_name                = aws_eks_cluster.deployment-3.name
+  addon_name                  = "eks-pod-identity-agent"
+  addon_version               = "v1.0.0-eksbuild.1"
+}
 
 #resource "aws_eks_node_group" "node-trainium-1" {
 #  cluster_name    = aws_eks_cluster.cluster.name

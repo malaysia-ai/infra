@@ -1,0 +1,11 @@
+settings:
+  clusterName: ${cluster_name}
+  clusterEndpoint: ${cluster_endpoint}
+  # assumeRoleARN: ${nodeRole_arn}
+  # defaultInstanceProfile: "KarpenterNodeRole-${cluster_name}"
+serviceAccount:
+  name: karpenter
+  annotations:
+    eks.amazonaws.com/role-arn: ${serviceAccount_arn}
+nodeSelector:
+  devops: owned
