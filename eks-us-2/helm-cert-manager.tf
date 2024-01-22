@@ -42,7 +42,6 @@ resource "kubernetes_manifest" "cert-manager-letsencrypt-production-cloudflare" 
     "kind" = "ClusterIssuer"
     "metadata" = {
       "name" = "cert-manager-letsencrypt-production-cloudflare"
-      "namespace" = kubernetes_namespace.cert-manager.id
     }
     "spec" = {
       "acme" = {
