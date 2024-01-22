@@ -96,24 +96,6 @@ resource "aws_eks_cluster" "deployment-3" {
   version = "1.28"
 }
 
-
-resource "aws_eks_cluster" "deployment-4" {
-  name     = "deployment-4"
-  role_arn = aws_iam_role.controlplane.arn
-
-  vpc_config {
-    subnet_ids = [
-      aws_default_subnet.subnet1.id, 
-      aws_default_subnet.subnet2.id, 
-      aws_default_subnet.subnet3.id,
-      aws_default_subnet.subnet4.id,
-    ]
-  }
-
-  version = "1.26"
-}
-
-
 # Use helm provider
 provider "kubernetes" {
   # experiments {
@@ -379,12 +361,6 @@ resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 
 resource "aws_eks_addon" "csi_driver" {
   cluster_name             = aws_eks_cluster.cluster.name
-  addon_name               = "aws-ebs-csi-driver"
-  service_account_role_arn = aws_iam_role.ebs_cni.arn
-}
-
-resource "aws_eks_addon" "csi_driver-4" {
-  cluster_name             = aws_eks_cluster.deployment-4.name
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
