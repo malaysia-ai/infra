@@ -8,7 +8,7 @@ global:
           operator: In
           values: ["owned"]
 dex:
-  enabled: false
+  enabled: true
 
 server:
   extraArgs:
