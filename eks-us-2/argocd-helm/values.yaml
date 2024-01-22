@@ -35,7 +35,7 @@ configs:
   cm:
     kustomize.buildOptions: --enable-helm
     url: https://argocd.us.malaysia-ai.org
-    # admin.enabled: false
+    admin.enabled: false
     resource.customizations.actions.apps_Deployment: |
       discovery.lua: |
         actions = {}
