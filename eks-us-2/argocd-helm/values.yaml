@@ -165,7 +165,7 @@ configs:
       sshPrivateKey: ${ssh_key}
   repositories:
     private-repo:
-      url: git@github.com:malaysia-ai/IaC.git
+      url: git@github.com:malaysia-ai/argocd.git
     docker-registry:
       url: registry-1.docker.io
       username: "docker"
