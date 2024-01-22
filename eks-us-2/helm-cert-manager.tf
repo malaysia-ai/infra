@@ -45,7 +45,7 @@ resource "kubernetes_manifest" "cert-manager-letsencrypt-production-cloudflare" 
     }
     "spec" = {
       "acme" = {
-        "email" = "adhasahar97@gmail.com"
+        "email" = "husein.zol05@gmail.com"
         "privateKeySecretRef" = {
           "name" = "cert-manager-letsencrypt-production-cloudflare"
         }
@@ -54,7 +54,7 @@ resource "kubernetes_manifest" "cert-manager-letsencrypt-production-cloudflare" 
           {
             "dns01" = {
               "cloudflare" = {
-                "email" = "adhasahar97@gmail.com"
+                "email" = "husein.zol05@gmail.com"
                 "apiKeySecretRef" = {
                     "name" = "cloudflare-api-key-secret"
                     "key" = "api-key"
