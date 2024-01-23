@@ -100,15 +100,15 @@ configs:
               obj.spec.suspend = false
           end
           return obj
-    oidc.config: |
-      name: Auth0
-      issuer: https://github-oauth2.us-west-2.malaysia-ai.org
-      clientID: 249498ebddc89a2653a8
-      clientSecret: 3d96f7b81a71e8629d8ec0accc6c2e8c75fda8f0
-      requestedScopes:
-        - openid
-        - profile
-        - email
+    # oidc.config: |
+    #   name: Auth0
+    #   issuer: https://github-oauth2.us-west-2.malaysia-ai.org
+    #   clientID: 249498ebddc89a2653a8
+    #   clientSecret: 3d96f7b81a71e8629d8ec0accc6c2e8c75fda8f0
+    #   requestedScopes:
+    #     - openid
+    #     - profile
+    #     - email
     dex.config: |-
       logger:
         level: debug
