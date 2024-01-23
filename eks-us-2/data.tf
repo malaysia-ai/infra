@@ -10,3 +10,9 @@ data "tls_certificate" "deployment-3" {
 data "aws_eks_cluster_auth" "deployment-3" {
   name = aws_eks_cluster.deployment-3.name
 }
+data "aws_subnets" "us-west-2-subnets" {
+  filter {
+    name   = "vpc-id"
+    values = ["vpc-038c715c3ba51de5b"]
+  }
+}
