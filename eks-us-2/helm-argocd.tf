@@ -3,7 +3,6 @@ resource "kubernetes_namespace" "argocd" {
     name = "argocd"
   }
 }
-
 resource "helm_release" "argocd" {
     name       = "argo-cd"
     chart      = "argo-cd"
@@ -15,6 +14,3 @@ resource "helm_release" "argocd" {
         argocd_pan = "${replace(var.argocd_pan, "\n", "\\n")}"
     })]
 }
-# resource "kubernetes_manifest" "argocd_ingress_configmap" {
-#   manifest = yamldecode(file("${path.module}/argocd-helm/ingress.yaml"))
-# }
