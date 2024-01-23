@@ -24,6 +24,8 @@ server:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/auth-signin: https://github-oauth2.us-west-2.malaysia-ai.org/oauth2/start?rd=$scheme://$host$request_uri
+      nginx.ingress.kubernetes.io/auth-url: https://github-oauth2.us-west-2.malaysia-ai.org/oauth2/auth
     hosts:
       - argocd.us-west-2.malaysia-ai.org
     tls:
