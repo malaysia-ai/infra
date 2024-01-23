@@ -95,7 +95,12 @@ resource "aws_eks_cluster" "deployment-3" {
 
   version = "1.28"
 }
-
+resource "aws_ec2_tag" "tag_deployment_3_public_subnet" {
+  for_each    = toset(data.aws_subnets.us-west-2-subnets.ids)
+  resource_id = each.value
+  key         = "kubernetes.io/cluster/${aws_eks_cluster.deployment-3.name}"
+  value       = "owned"
+}
 # Use helm provider
 provider "kubernetes" {
   # experiments {
