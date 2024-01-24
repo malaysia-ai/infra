@@ -40,3 +40,12 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 
+resource "aws_iam_role" "controlplane" {
+  name               = "eks-cluster-us-2"
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "controlplane_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.controlplane.name
+}
