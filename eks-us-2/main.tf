@@ -291,7 +291,7 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   }
 }
 
-resource "aws_eks_node_group" "node7" {
+resource "aws_eks_node_group" "node8" {
   cluster_name    = aws_eks_cluster.cluster.name
   node_group_name = "node7"
   node_role_arn   = aws_iam_role.nodegroup.arn
