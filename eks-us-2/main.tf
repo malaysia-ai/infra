@@ -314,8 +314,8 @@ resource "aws_iam_openid_connect_provider" "this" {
   client_id_list = ["sts.amazonaws.com"]
   # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
   # https://github.com/terraform-providers/terraform-provider-tls/issues/52
-  thumbprint_list = [data.tls_certificate.cluster.certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.cluster.identity.0.oidc.0.issuer
+  thumbprint_list = [data.tls_certificate.deployment-2.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.deployment-2.identity.0.oidc.0.issuer
 }
 
 resource "aws_iam_openid_connect_provider" "deployment-3" {
