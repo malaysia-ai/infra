@@ -129,6 +129,33 @@ resource "aws_iam_role" "nodegroup" {
   })
 }
 
+resource "aws_iam_role_policy" "ebs-deployment-3-ec2-volume-policy" {
+    name = "ebs-deployment-3-ec2-volume-policy"
+    role = aws_iam_role.nodegroup.id
+
+    # Terraform's "jsonencode" function converts a
+    # Terraform expression result to valid JSON syntax.
+    policy = jsonencode({
+      "Version": "2012-10-17",
+      "Statement": [{
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+        "ec2:CreateVolume",
+        "ec2:DeleteVolume",
+        "ec2:DetachVolume",
+        "ec2:AttachVolume",
+        "ec2:DescribeInstances",
+        "ec2:CreateTags",
+        "ec2:DeleteTags",
+        "ec2:DescribeTags",
+        "ec2:DescribeVolumes"
+        ],
+        "Resource": "*"
+      }]
+    })
+}
+
 resource "aws_iam_role_policy_attachment" "nodegroup_attachment-worker" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.nodegroup.name
