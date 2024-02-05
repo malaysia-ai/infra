@@ -1,8 +1,8 @@
-data "tls_certificate" "cluster" {
-  url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+data "tls_certificate" "deployment-2" {
+  url = aws_eks_cluster.deployment-2.identity[0].oidc[0].issuer
 }
-data "aws_eks_cluster_auth" "cluster" {
-  name = aws_eks_cluster.cluster.name
+data "aws_eks_cluster_auth" "deployment-2" {
+  name = aws_eks_cluster.deployment-2.name
 }
 data "tls_certificate" "deployment-3" {
   url = aws_eks_cluster.deployment-3.identity[0].oidc[0].issuer
