@@ -63,7 +63,7 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
-resource "aws_eks_cluster" "cluster" {
+resource "aws_eks_cluster" "deployment-2" {
   name     = "deployment-2"
   role_arn = aws_iam_role.controlplane.arn
 
@@ -247,28 +247,27 @@ resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
 
 # }
 
-# resource "aws_eks_node_group" "node-trainium-3" {
-#   cluster_name    = aws_eks_cluster.deployment-4.name
-#   node_group_name = "node-trainium-3"
-#   node_role_arn   = aws_iam_role.nodegroup.arn
-#   subnet_ids      = [aws_default_subnet.subnet2.id, aws_default_subnet.subnet4.id]
+resource "aws_eks_node_group" "trainium" {
+  cluster_name    = aws_eks_cluster.deployment-3.name
+  node_group_name = "trainium"
+  node_role_arn   = aws_iam_role.nodegroup.arn
+  subnet_ids      = [aws_default_subnet.subnet2.id, aws_default_subnet.subnet4.id]
 
-#   labels = {
-#     kamarul = "owned"
-#   }
+  labels = {
+     kamarul = "owned"
+  }
 
-#   scaling_config {
-#     desired_size = 1
-#     max_size     = 1
-#     min_size     = 1
-#   }
+  scaling_config {
+     desired_size = 1
+     max_size     = 1
+     min_size     = 1
+  }
 
-#   ami_type = "AL2_x86_64_GPU"
-#   capacity_type = "ON_DEMAND"
-#   instance_types = ["trn1.32xlarge"]
-#   disk_size = 100
-
-# }
+  ami_type = "AL2_x86_64_GPU"
+  capacity_type = "SPOT"
+  instance_types = ["trn1.2xlarge"]
+  disk_size = 100
+ }
 
 resource "aws_eks_node_group" "devops-nodegroup" {
   cluster_name    = aws_eks_cluster.deployment-3.name
@@ -291,9 +290,9 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   }
 }
 
-resource "aws_eks_node_group" "node8" {
-  cluster_name    = aws_eks_cluster.cluster.name
-  node_group_name = "node7"
+resource "aws_eks_node_group" "inferentia" {
+  cluster_name    = aws_eks_cluster.deployment-2.name
+  node_group_name = "inferentia"
   node_role_arn   = aws_iam_role.nodegroup.arn
   subnet_ids      = [aws_default_subnet.subnet2.id]
 
@@ -367,7 +366,7 @@ resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 }
 
 resource "aws_eks_addon" "csi_driver" {
-  cluster_name             = aws_eks_cluster.cluster.name
+  cluster_name             = aws_eks_cluster.deployment-2.name
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
