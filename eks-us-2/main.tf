@@ -170,9 +170,48 @@ resource "aws_eks_addon" "kube-proxy-addons" {
   cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "kube-proxy"
 }
+data "aws_iam_policy_document" "ebs_cni_controller_deployment-3" {
+  statement {
+    sid = "EBSCNIAssumeRole"
+
+    actions = [
+      "sts:AssumeRoleWithWebIdentity",
+    ]
+
+    principals {
+      identifiers = [aws_iam_openid_connect_provider.deployment-3.arn]
+      type        = "Federated"
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ebs_cni_deployment-3" {
+  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-deployment-3"
+  assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller_deployment-3.json
+
+  # tags = module.main.common_tags
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_cni_policy_deployment-3" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+  role       = aws_iam_role.ebs_cni_deployment-3.name
+}
 resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
   cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "aws-ebs-csi-driver"
+  service_account_role_arn = aws_iam_role.ebs_cni_deployment-3.arn
 }
 resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
   cluster_name                = aws_eks_cluster.deployment-3.name
