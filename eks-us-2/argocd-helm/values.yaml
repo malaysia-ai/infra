@@ -75,6 +75,43 @@ configs:
             end
             obj.spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"] = os.date("!%Y-%m-%dT%XZ")
             return obj
+    resource.customizations.actions.apps_StatefulSet: |
+      discovery.lua: |
+        actions = {}
+        actions["restart"] = {}
+        actions["turnOn"] = {["disabled"] = true}
+        actions["turnOff"] = {["disabled"] = true}
+
+        local replicas
+        if obj.spec.replicas ~= nil then
+            replicas = obj.spec.replicas
+        end
+        if replicas ~= 0 then
+          actions["turnOff"]["disabled"] = false
+        else
+          actions["turnOn"]["disabled"] = false
+        end
+        return actions
+      definitions:
+        - name: turnOn
+          action.lua: |
+            obj.spec.replicas = 1
+            return obj
+        - name: turnOff
+          action.lua: |
+            obj.spec.replicas = 0
+            return obj
+        - name: restart
+          action.lua: |
+            local os = require("os")
+            if obj.spec.template.metadata == nil then
+              obj.spec.template.metadata = {}
+            end
+            if obj.spec.template.metadata.annotations == nil then
+              obj.spec.template.metadata.annotations = {}
+            end
+            obj.spec.template.metadata.annotations["kubectl.kubernetes.io/restartedAt"] = os.date("!%Y-%m-%dT%XZ")
+            return obj
     resource.customizations.actions.batch_CronJob: |
       discovery.lua: |
         actions = {}
