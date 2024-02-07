@@ -356,25 +356,25 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   }
 }
 
- resource "aws_eks_node_group" "inferentia" {
-   cluster_name    = aws_eks_cluster.deployment-2.name
-   node_group_name = "inferentia"
-   node_role_arn   = aws_iam_role.nodegroup.arn
-   subnet_ids      = [aws_default_subnet.subnet2.id]
-
-   labels = {
-     mindscape = "owned"
-   }
-   scaling_config {
-      desired_size = 1
-      max_size     = 1
-      min_size     = 1
-    }
-   ami_type = "AL2_x86_64_GPU"
-   capacity_type = "SPOT"
-   instance_types = ["inf1.xlarge"]
-   disk_size = 100
- }
+# resource "aws_eks_node_group" "inferentia" {
+#   cluster_name    = aws_eks_cluster.deployment-2.name
+#   node_group_name = "inferentia"
+#   node_role_arn   = aws_iam_role.nodegroup.arn
+#   subnet_ids      = [aws_default_subnet.subnet2.id]
+#
+#   labels = {
+#     mindscape = "owned"
+#   }
+#   scaling_config {
+#      desired_size = 1
+#      max_size     = 1
+#      min_size     = 1
+#    }
+#   ami_type = "AL2_x86_64_GPU"
+#   capacity_type = "SPOT"
+#   instance_types = ["inf1.xlarge"]
+#   disk_size = 100
+# }
 
 resource "aws_iam_openid_connect_provider" "this" {
   client_id_list = ["sts.amazonaws.com"]
