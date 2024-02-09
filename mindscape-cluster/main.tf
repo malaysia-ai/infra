@@ -131,32 +131,32 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 #}
 
 
-# resource "aws_eks_node_group" "inferentia" {
-#   cluster_name    = aws_eks_cluster.deployment-2.name
-#   node_group_name = "inferentia"
-#   node_role_arn   = aws_iam_role.nodegroup.arn
-#   subnet_ids      = [aws_default_subnet.subnet2.id]
-#
-#   labels = {
-#     mindscape = "owned"
-#   }
-#   scaling_config {
-#      desired_size = 1
-#      max_size     = 1
-#      min_size     = 1
-#    }
-#   ami_type = "AL2_x86_64_GPU"
-#   capacity_type = "SPOT"
-#   instance_types = ["inf1.xlarge"]
-#   disk_size = 100
-# }
+resource "aws_eks_node_group" "inferentia" {
+   cluster_name    = aws_eks_cluster.mindscape-deployment.name
+   node_group_name = "inferentia"
+   node_role_arn   = aws_iam_role.nodegroup.arn
+   subnet_ids      = [aws_default_subnet.subnet2.id]
+
+   labels = {
+     mindscape = "owned"
+   }
+   scaling_config {
+      desired_size = 1
+      max_size     = 1
+      min_size     = 1
+    }
+   ami_type = "AL2_x86_64_GPU"
+   capacity_type = "SPOT"
+   instance_types = ["inf1.xlarge"]
+   disk_size = 100
+ }
 
 resource "aws_iam_openid_connect_provider" "this" {
   client_id_list = ["sts.amazonaws.com"]
   # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
   # https://github.com/terraform-providers/terraform-provider-tls/issues/52
-  thumbprint_list = [data.tls_certificate.deployment-2.certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.deployment-2.identity.0.oidc.0.issuer
+  thumbprint_list = [data.tls_certificate.mindscape-deployment.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.mindscape.identity.0.oidc.0.issuer
 }
 
 
@@ -200,7 +200,7 @@ resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 }
 
 resource "aws_eks_addon" "csi_driver" {
-  cluster_name             = aws_eks_cluster.deployment-2.name
+  cluster_name             = aws_eks_cluster.mindscape-deployment.name
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
