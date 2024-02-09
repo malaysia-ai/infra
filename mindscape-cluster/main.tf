@@ -1,4 +1,4 @@
-terraform {
+#terraform {
 #
 #  cloud {
 #    organization = "malaysia-ai"
@@ -18,14 +18,14 @@ terraform {
 #  required_version = ">= 1.1.0"
 #}
 #
-provider "aws" {
+#provider "aws" {
 #  access_key = var.access_key
 #  secret_key = var.secret_key
 #  region     = var.region
 #}
 #
 #
-data "aws_iam_policy_document" "assume_role" {
+#data "aws_iam_policy_document" "assume_role" {
 #  statement {
 #    effect = "Allow"
 #
@@ -38,32 +38,32 @@ data "aws_iam_policy_document" "assume_role" {
 #  }
 #}
 #
-resource "aws_iam_role" "controlplane" {
+#resource "aws_iam_role" "controlplane" {
 #  name               = "eks-cluster-us-2-mindscape"
 #  assume_role_policy = data.aws_iam_policy_document.assume_role.json
 #}
 #
-resource "aws_iam_role_policy_attachment" "controlplane_attachment" {
+#resource "aws_iam_role_policy_attachment" "controlplane_attachment" {
 #  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 #  role       = aws_iam_role.controlplane.name
 #}
 #
-resource "aws_default_vpc" "default" {
+#resource "aws_default_vpc" "default" {
 #}
 #
-resource "aws_default_subnet" "subnet1" {
+#resource "aws_default_subnet" "subnet1" {
 #  availability_zone = "us-west-2a"
 #}
 #
-resource "aws_default_subnet" "subnet2" {
+#resource "aws_default_subnet" "subnet2" {
 #  availability_zone = "us-west-2b"
 #}
 #
-resource "aws_default_subnet" "subnet3" {
+#resource "aws_default_subnet" "subnet3" {
 #  availability_zone = "us-west-2c"
 #}
 #
-resource "aws_eks_cluster" "mindscape-deployment" {
+#resource "aws_eks_cluster" "mindscape-deployment" {
 #  name     = "mindscape-deployment"
 #  role_arn = aws_iam_role.controlplane.arn
 #
@@ -78,7 +78,7 @@ resource "aws_eks_cluster" "mindscape-deployment" {
 #  version = "1.26"
 #}
 #
-resource "aws_iam_role" "nodegroup" {
+#resource "aws_iam_role" "nodegroup" {
 #  name = "eks-nodegroup-us-2-mindscape"
 #  assume_role_policy = jsonencode({
 #    Statement = [{
@@ -93,17 +93,17 @@ resource "aws_iam_role" "nodegroup" {
 #}
 #
 #
-resource "aws_iam_role_policy_attachment" "nodegroup_attachment-worker" {
+#resource "aws_iam_role_policy_attachment" "nodegroup_attachment-worker" {
 #  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 #  role       = aws_iam_role.nodegroup.name
 #}
 #
-resource "aws_iam_role_policy_attachment" "nodegroup_attachment-cni" {
+#resource "aws_iam_role_policy_attachment" "nodegroup_attachment-cni" {
 #  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 #  role       = aws_iam_role.nodegroup.name
 #}
 #
-resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
+#resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 #  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 #  role       = aws_iam_role.nodegroup.name
 #}
@@ -131,7 +131,7 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 ##}
 #
 #
-resource "aws_eks_node_group" "inferentia" {
+#resource "aws_eks_node_group" "inferentia" {
 #   cluster_name    = aws_eks_cluster.mindscape-deployment.name
 #   node_group_name = "inferentia"
 #   node_role_arn   = aws_iam_role.nodegroup.arn
@@ -151,7 +151,7 @@ resource "aws_eks_node_group" "inferentia" {
 #   disk_size = 100
 # }
 #
-resource "aws_iam_openid_connect_provider" "this" {
+#resource "aws_iam_openid_connect_provider" "this" {
 #  client_id_list = ["sts.amazonaws.com"]
 #  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
 #  # https://github.com/terraform-providers/terraform-provider-tls/issues/52
@@ -160,7 +160,7 @@ resource "aws_iam_openid_connect_provider" "this" {
 #}
 #
 #
-data "aws_iam_policy_document" "ebs_cni_controller" {
+#data "aws_iam_policy_document" "ebs_cni_controller" {
 #  statement {
 #    sid = "EBSCNIAssumeRole"
 #
@@ -187,19 +187,19 @@ data "aws_iam_policy_document" "ebs_cni_controller" {
 #  }
 #}
 #
-resource "aws_iam_role" "ebs_cni" {
+#resource "aws_iam_role" "ebs_cni" {
 #  name               = "AmazonEKS_EBS_CSI_DriverRole_Data_Mindscape"
 #  assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
 #
 #  # tags = module.main.common_tags
 #}
 #
-resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
+#resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
 #  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 #  role       = aws_iam_role.ebs_cni.name
 #}
 #
-resource "aws_eks_addon" "csi_driver" {
+#resource "aws_eks_addon" "csi_driver" {
 #  cluster_name             = aws_eks_cluster.mindscape-deployment.name
 #  addon_name               = "aws-ebs-csi-driver"
 #  service_account_role_arn = aws_iam_role.ebs_cni.arn

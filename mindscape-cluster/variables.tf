@@ -1,12 +1,12 @@
-variable "access_key" {
+#variable "access_key" {
 #  type = string
 #}
 #
-variable "secret_key" {
+#variable "secret_key" {
 #  type = string
 #}
 #
-variable "region" {
+#variable "region" {
 #  type    = string
 #  default = "us-west-2"
 #}
