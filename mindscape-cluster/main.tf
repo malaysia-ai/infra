@@ -188,7 +188,7 @@ data "aws_iam_policy_document" "ebs_cni_controller" {
 }
 
 resource "aws_iam_role" "ebs_cni" {
-  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-2"
+  name               = "AmazonEKS_EBS_CSI_DriverRole_Data_Mindscape"
   assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
 
   # tags = module.main.common_tags
