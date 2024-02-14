@@ -271,6 +271,10 @@ resource "aws_iam_role_policy_attachment" "efs_cni_policy_deployment-3" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
   role       = aws_iam_role.efs_cni_deployment-3.name
 }
+resource "aws_iam_role_policy_attachment" "efs_cni_policy_eks-noderole-deployment-3" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+  role       = aws_iam_role.nodegroup.name
+}
 resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
   cluster_name                = aws_eks_cluster.deployment-3.name
   addon_name                  = "aws-ebs-csi-driver"
