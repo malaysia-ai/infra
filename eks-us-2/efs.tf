@@ -4,6 +4,7 @@ resource "aws_efs_file_system" "jupyter" {
   tags = {
     Name = "jupyter"
   }
+  throughput_mode = "elastic"
 }
 
 resource "aws_efs_mount_target" "jupyter-west-2a" {
