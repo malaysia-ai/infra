@@ -184,6 +184,15 @@ resource "aws_eks_addon" "kube-proxy-addons" {
   cluster_name = aws_eks_cluster.deployment-3.name
   addon_name   = "kube-proxy"
 }
+
+resource "aws_iam_openid_connect_provider" "deployment-3" {
+  client_id_list = ["sts.amazonaws.com"]
+  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
+  # https://github.com/terraform-providers/terraform-provider-tls/issues/52
+  thumbprint_list = [data.tls_certificate.deployment-3.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.deployment-3.identity.0.oidc.0.issuer
+}
+
 data "aws_iam_policy_document" "ebs_cni_controller_deployment-3" {
   statement {
     sid = "EBSCNIAssumeRole"
@@ -381,42 +390,6 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   disk_size      = "30"
   labels = {
     "devops" = "owned"
-  }
-}
-
-
-resource "aws_iam_openid_connect_provider" "deployment-3" {
-  client_id_list = ["sts.amazonaws.com"]
-  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
-  # https://github.com/terraform-providers/terraform-provider-tls/issues/52
-  thumbprint_list = [data.tls_certificate.deployment-3.certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.deployment-3.identity.0.oidc.0.issuer
-}
-
-data "aws_iam_policy_document" "ebs_cni_controller" {
-  statement {
-    sid = "EBSCNIAssumeRole"
-
-    actions = [
-      "sts:AssumeRoleWithWebIdentity",
-    ]
-
-    principals {
-      identifiers = [aws_iam_openid_connect_provider.this.arn]
-      type        = "Federated"
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:aud"
-      values   = ["sts.amazonaws.com"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "${replace(aws_iam_openid_connect_provider.this.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
-    }
   }
 }
 
