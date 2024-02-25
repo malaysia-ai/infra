@@ -63,20 +63,7 @@ resource "aws_default_subnet" "subnet3" {
   availability_zone = "us-west-2c"
 }
 
-resource "aws_eks_cluster" "deployment-2" {
-  name     = "deployment-2"
-  role_arn = aws_iam_role.controlplane.arn
 
-  vpc_config {
-    subnet_ids = [
-      aws_default_subnet.subnet1.id,
-      aws_default_subnet.subnet2.id,
-      aws_default_subnet.subnet3.id
-    ]
-  }
-
-  version = "1.26"
-}
 resource "aws_eks_cluster" "deployment-3" {
   name     = "deployment-3"
   role_arn = aws_iam_role.controlplane.arn
@@ -397,33 +384,6 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   }
 }
 
-# resource "aws_eks_node_group" "inferentia" {
-#   cluster_name    = aws_eks_cluster.deployment-2.name
-#   node_group_name = "inferentia"
-#   node_role_arn   = aws_iam_role.nodegroup.arn
-#   subnet_ids      = [aws_default_subnet.subnet2.id]
-#
-#   labels = {
-#     mindscape = "owned"
-#   }
-#   scaling_config {
-#      desired_size = 1
-#      max_size     = 1
-#      min_size     = 1
-#    }
-#   ami_type = "AL2_x86_64_GPU"
-#   capacity_type = "SPOT"
-#   instance_types = ["inf1.xlarge"]
-#   disk_size = 100
-# }
-
-resource "aws_iam_openid_connect_provider" "this" {
-  client_id_list = ["sts.amazonaws.com"]
-  # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
-  # https://github.com/terraform-providers/terraform-provider-tls/issues/52
-  thumbprint_list = [data.tls_certificate.deployment-2.certificates[0].sha1_fingerprint]
-  url             = aws_eks_cluster.deployment-2.identity.0.oidc.0.issuer
-}
 
 resource "aws_iam_openid_connect_provider" "deployment-3" {
   client_id_list = ["sts.amazonaws.com"]
@@ -470,12 +430,6 @@ resource "aws_iam_role" "ebs_cni" {
 resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
   role       = aws_iam_role.ebs_cni.name
-}
-
-resource "aws_eks_addon" "csi_driver" {
-  cluster_name             = aws_eks_cluster.deployment-2.name
-  addon_name               = "aws-ebs-csi-driver"
-  service_account_role_arn = aws_iam_role.ebs_cni.arn
 }
 
 resource "aws_acm_certificate" "mesolitica" {
