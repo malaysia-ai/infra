@@ -393,18 +393,6 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   }
 }
 
-resource "aws_iam_role" "ebs_cni" {
-  name               = "AmazonEKS_EBS_CSI_DriverRole_Data-us-2"
-  assume_role_policy = data.aws_iam_policy_document.ebs_cni_controller.json
-
-  # tags = module.main.common_tags
-}
-
-resource "aws_iam_role_policy_attachment" "ebs_cni_policy" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-  role       = aws_iam_role.ebs_cni.name
-}
-
 resource "aws_acm_certificate" "mesolitica" {
   domain_name               = "us1.peacehotel.my"
   subject_alternative_names = ["*.us1.peacehotel.my"]
