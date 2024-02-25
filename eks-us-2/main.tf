@@ -207,13 +207,13 @@ data "aws_iam_policy_document" "ebs_cni_controller_deployment-3" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
     }
@@ -233,13 +233,13 @@ data "aws_iam_policy_document" "efs_cni_controller_deployment-3" {
     }
 
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:sub"
       values   = ["system:serviceaccount:kube-system:efs-csi-*"]
     }
