@@ -69,8 +69,8 @@ resource "aws_eks_cluster" "deployment-2" {
 
   vpc_config {
     subnet_ids = [
-      aws_default_subnet.subnet1.id, 
-      aws_default_subnet.subnet2.id, 
+      aws_default_subnet.subnet1.id,
+      aws_default_subnet.subnet2.id,
       aws_default_subnet.subnet3.id
     ]
   }
@@ -83,8 +83,8 @@ resource "aws_eks_cluster" "deployment-3" {
 
   vpc_config {
     subnet_ids = [
-      aws_default_subnet.subnet1.id, 
-      aws_default_subnet.subnet2.id, 
+      aws_default_subnet.subnet1.id,
+      aws_default_subnet.subnet2.id,
       aws_default_subnet.subnet3.id
     ]
   }
@@ -112,7 +112,7 @@ provider "helm" {
     host                   = aws_eks_cluster.deployment-3.endpoint
     cluster_ca_certificate = base64decode(aws_eks_cluster.deployment-3.certificate_authority.0.data)
     token                  = data.aws_eks_cluster_auth.deployment-3.token
-   }
+  }
 }
 resource "aws_iam_role" "nodegroup" {
   name = "eks-nodegroup-us-2"
@@ -130,17 +130,17 @@ resource "aws_iam_role" "nodegroup" {
 }
 
 resource "aws_iam_role_policy" "ebs-deployment-3-ec2-volume-policy" {
-    name = "ebs-deployment-3-ec2-volume-policy"
-    role = aws_iam_role.nodegroup.id
+  name = "ebs-deployment-3-ec2-volume-policy"
+  role = aws_iam_role.nodegroup.id
 
-    # Terraform's "jsonencode" function converts a
-    # Terraform expression result to valid JSON syntax.
-    policy = jsonencode({
-      "Version": "2012-10-17",
-      "Statement": [{
-        "Sid": "VisualEditor0",
-        "Effect": "Allow",
-        "Action": [
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [{
+      "Sid" : "VisualEditor0",
+      "Effect" : "Allow",
+      "Action" : [
         "ec2:CreateVolume",
         "ec2:DeleteVolume",
         "ec2:DetachVolume",
@@ -150,10 +150,10 @@ resource "aws_iam_role_policy" "ebs-deployment-3-ec2-volume-policy" {
         "ec2:DeleteTags",
         "ec2:DescribeTags",
         "ec2:DescribeVolumes"
-        ],
-        "Resource": "*"
-      }]
-    })
+      ],
+      "Resource" : "*"
+    }]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "nodegroup_attachment-worker" {
@@ -172,11 +172,11 @@ resource "aws_iam_role_policy_attachment" "nodegroup_attachment-ecr" {
 }
 
 resource "aws_eks_addon" "vpc-cni-addons" {
-  cluster_name                = aws_eks_cluster.deployment-3.name
-  addon_name                  = "vpc-cni"
+  cluster_name = aws_eks_cluster.deployment-3.name
+  addon_name   = "vpc-cni"
   # addon_version               = "v1.16.0-eksbuild.1"
-  resolve_conflicts_on_create = "OVERWRITE"  # Specify how conflicts should be resolved
-  resolve_conflicts_on_update = "OVERWRITE"  # Specify how conflicts should be resolved
+  resolve_conflicts_on_create = "OVERWRITE" # Specify how conflicts should be resolved
+  resolve_conflicts_on_update = "OVERWRITE" # Specify how conflicts should be resolved
 
   configuration_values = jsonencode({
     # most_recent = true  
@@ -194,8 +194,8 @@ resource "aws_eks_addon" "vpc-cni-addons" {
 }
 
 resource "aws_eks_addon" "kube-proxy-addons" {
-  cluster_name                = aws_eks_cluster.deployment-3.name
-  addon_name                  = "kube-proxy"
+  cluster_name = aws_eks_cluster.deployment-3.name
+  addon_name   = "kube-proxy"
 }
 data "aws_iam_policy_document" "ebs_cni_controller_deployment-3" {
   statement {
@@ -276,19 +276,19 @@ resource "aws_iam_role_policy_attachment" "efs_cni_policy_eks-noderole-deploymen
   role       = aws_iam_role.nodegroup.name
 }
 resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
-  cluster_name                = aws_eks_cluster.deployment-3.name
-  addon_name                  = "aws-ebs-csi-driver"
+  cluster_name             = aws_eks_cluster.deployment-3.name
+  addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni_deployment-3.arn
 }
 resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
-  cluster_name                = aws_eks_cluster.deployment-3.name
-  addon_name                  = "aws-efs-csi-driver"
+  cluster_name             = aws_eks_cluster.deployment-3.name
+  addon_name               = "aws-efs-csi-driver"
   service_account_role_arn = aws_iam_role.efs_cni_deployment-3.arn
 }
 resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
-  cluster_name                = aws_eks_cluster.deployment-3.name
-  addon_name                  = "eks-pod-identity-agent"
-  addon_version               = "v1.0.0-eksbuild.1"
+  cluster_name  = aws_eks_cluster.deployment-3.name
+  addon_name    = "eks-pod-identity-agent"
+  addon_version = "v1.0.0-eksbuild.1"
 }
 
 #resource "aws_eks_node_group" "node-trainium-1" {
@@ -354,27 +354,27 @@ resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
 
 # }
 
-# resource "aws_eks_node_group" "trainium" {
-#    cluster_name    = aws_eks_cluster.deployment-3.name
-#    node_group_name = "trainium"
-#    node_role_arn   = aws_iam_role.nodegroup.arn
-#    subnet_ids      = [aws_default_subnet.subnet2.id]
+resource "aws_eks_node_group" "trainium" {
+  cluster_name    = aws_eks_cluster.deployment-3.name
+  node_group_name = "trainium"
+  node_role_arn   = aws_iam_role.nodegroup.arn
+  subnet_ids      = [aws_default_subnet.subnet2.id]
 
-#   labels = {
-#       kamarul = "owned"
-#    }
+  labels = {
+    kamarul = "owned"
+  }
 
-#    scaling_config {
-#       desired_size = 1
-#       max_size     = 1
-#       min_size     = 1
-#    }
+  scaling_config {
+    desired_size = 1
+    max_size     = 1
+    min_size     = 1
+  }
 
-#    ami_type = "AL2_x86_64_GPU"
-#    capacity_type = "SPOT"
-#    instance_types = ["trn1.2xlarge"]
-#    disk_size = 100
-# }
+  ami_type       = "AL2_x86_64_GPU"
+  capacity_type  = "SPOT"
+  instance_types = ["trn1.32xlarge"]
+  disk_size      = 100
+}
 
 resource "aws_eks_node_group" "devops-nodegroup" {
   cluster_name    = aws_eks_cluster.deployment-3.name
@@ -392,7 +392,7 @@ resource "aws_eks_node_group" "devops-nodegroup" {
   instance_types = ["r6g.large"]
   capacity_type  = "ON_DEMAND"
   disk_size      = "30"
-  labels         = {
+  labels = {
     "devops" = "owned"
   }
 }
@@ -479,9 +479,9 @@ resource "aws_eks_addon" "csi_driver" {
 }
 
 resource "aws_acm_certificate" "mesolitica" {
-  domain_name       = "us1.peacehotel.my"
+  domain_name               = "us1.peacehotel.my"
   subject_alternative_names = ["*.us1.peacehotel.my"]
-  validation_method = "DNS"
+  validation_method         = "DNS"
 
   lifecycle {
     create_before_destroy = true
