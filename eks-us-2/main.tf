@@ -390,7 +390,7 @@ resource "aws_eks_node_group" "inferentia" {
 
   ami_type       = "AL2_x86_64_GPU"
   capacity_type  = "SPOT"
-  instance_types = ["inf2.24xlarge"]
+  instance_types = ["inf2.xlarge"]
   disk_size      = 100
 }
 
