@@ -233,15 +233,15 @@ data "aws_iam_policy_document" "efs_cni_controller_deployment-3" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:aud"
       values   = ["sts.amazonaws.com"]
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "${replace(aws_iam_openid_connect_provider.deployment-3.url, "https://", "")}:sub"
-      values   = ["system:serviceaccount:kube-system:efs-csi-*"]
+      values   = ["system:serviceaccount:kube-system:efs-csi-controller-sa"]
     }
   }
 }
@@ -276,11 +276,12 @@ resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni_deployment-3.arn
 }
-# resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
-#   cluster_name             = aws_eks_cluster.deployment-3.name
-#   addon_name               = "aws-efs-csi-driver"
-#   service_account_role_arn = aws_iam_role.efs_cni_deployment-3.arn
-# }
+resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
+  cluster_name             = aws_eks_cluster.deployment-3.name
+  addon_name               = "aws-efs-csi-driver"
+  addon_version            = "v1.7.5-eksbuild.2"
+  service_account_role_arn = aws_iam_role.efs_cni_deployment-3.arn
+}
 resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
   cluster_name  = aws_eks_cluster.deployment-3.name
   addon_name    = "eks-pod-identity-agent"
