@@ -276,11 +276,11 @@ resource "aws_eks_addon" "aws-ebs-csi-driver-addons" {
   addon_name               = "aws-ebs-csi-driver"
   service_account_role_arn = aws_iam_role.ebs_cni_deployment-3.arn
 }
-resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
-  cluster_name             = aws_eks_cluster.deployment-3.name
-  addon_name               = "aws-efs-csi-driver"
-  service_account_role_arn = aws_iam_role.efs_cni_deployment-3.arn
-}
+# resource "aws_eks_addon" "aws-efs-csi-driver-addons" {
+#   cluster_name             = aws_eks_cluster.deployment-3.name
+#   addon_name               = "aws-efs-csi-driver"
+#   service_account_role_arn = aws_iam_role.efs_cni_deployment-3.arn
+# }
 resource "aws_eks_addon" "eks-pod-identity-agent-addons" {
   cluster_name  = aws_eks_cluster.deployment-3.name
   addon_name    = "eks-pod-identity-agent"
