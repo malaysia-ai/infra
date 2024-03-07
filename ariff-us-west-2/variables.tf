@@ -17,17 +17,17 @@ variable "region" {
 variable "subnet_id_1" {
   description = "subnet id 1"
   type        = string
-  default     = "subnet-0685b740fe605891a"
+  default     = "subnet-0a36743bf1aa1ab50"
 }
 
 variable "subnet_id_2" {
   description = "subnet id 2"
   type        = string
-  default     = "subnet-05f8f0ff23585c420"
+  default     = "subnet-0440bbc5ba8484cef"
 }
 
 variable "subnet_id_3" {
   description = "subnet id 3"
   type        = string
-  default     = "	subnet-01e13cdd7a40425bd"
+  default     = "subnet-08c83b443d6185bd5"
 }
