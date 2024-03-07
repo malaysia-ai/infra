@@ -75,7 +75,7 @@ data "aws_subnet" "default_az3" {
 }
 
 resource "aws_eks_cluster" "deployment" {
-  name     = "deployment"
+  name     = "deployment-ariff"
   role_arn = aws_iam_role.example.arn
 
   vpc_config {
