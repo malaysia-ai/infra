@@ -32,3 +32,24 @@ jobs:
           push: true
           context: fastapi-hello-world
           tags: malaysiaai/fastapi-hello-world:${{ inputs.tag }}
+  
+  modify-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: modify the image tag
+        with:
+          repository: malaysia-ai/argocd
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+      - name: modify the image tag
+        run: |
+          git config user.email ariffnzhn@gmail.com
+          git config user.name Ariff Nazhan
+          pwd
+          cat 
+          sed -i "s+malaysiaai/fastapi-hello-world:0.0.1:${{ inputs.tag }}+g" fastapi-hello-world/deploy.yaml
+          git add fastapi-hello-world/deploy.yaml
+          git commit -m "Committed by Github Actions Job CI"
+          git push origin main
+
+
