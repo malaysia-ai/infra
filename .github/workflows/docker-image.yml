@@ -48,7 +48,7 @@ jobs:
           git config user.name Ariff Nazhan
           pwd
           cat 
-          sed -i "s+malaysiaai/fastapi-hello-world:0.0.1+malaysiaai/fastapi-hello-world:${IMAGE_TAG}+g" fastapi-hello-world/deploy.yaml
+          sed -i "s+malaysiaai/fastapi-hello-world.*+malaysiaai/fastapi-hello-world:$IMAGE_TAG+g" fastapi-hello-world/deploy.yaml
           git add fastapi-hello-world/deploy.yaml
           git commit -m "Committed by Github Actions Job CI"
           git push origin main
