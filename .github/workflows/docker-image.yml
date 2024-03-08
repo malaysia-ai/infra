@@ -28,5 +28,5 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          file: fastapi-hello-world/Dockerfile
+          context: fastapi-hello-world/
           tags: malaysiaai/fastapi-hello-world:${{ inputs.tag }}
