@@ -10,7 +10,7 @@ resource "helm_release" "traefik" {
     repository = "https://traefik.github.io/charts"
     namespace  = kubernetes_namespace.traefik-ingress.id
 
-    values = [templatefile("traefix-helm/values.yaml", {
+    values = [templatefile("traefik-helm/values.yaml", {
        
     })]
 }
