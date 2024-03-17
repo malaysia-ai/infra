@@ -77,22 +77,22 @@ spec:
 kubectl get certificate -n traefik
 ```
 
-7. Use it on the TLS Store in **values.yaml** file for this Helm Chart
+7. Create ```TLSStore``` that point  the certificates.
 
 ```yaml
-tlsStore:
-  default:
-    defaultCertificate:
-      secretName: wildcard-example-com-tls
+apiVersion: traefik.io/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+  namespace: traefik
+spec:
+  certificates:
+    - secretName: wildcard-example-com-tls
+  defaultCertificate:
+    secretName: wildcard-example-com-tls
 ```
 
-8. install helm with a values file.
-
-```
-helm install -f values.yaml traefik traefik/traefik
-```
-
-9. Enjoy. All your `IngressRoute` use this certificate by default now. They should use websecure entrypoint like this:
+8. Enjoy. All your `IngressRoute` use this certificate by default now. They should use websecure entrypoint like this:
 
 ```yaml
 apiVersion: traefik.io/v1alpha1
