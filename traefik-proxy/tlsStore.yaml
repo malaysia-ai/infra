@@ -1,0 +1,10 @@
+apiVersion: traefik.io/v1alpha1
+kind: TLSStore
+metadata:
+  name: default
+  namespace: traefik
+spec:
+  certificates:
+    - secretName: wildcard-example-com-tls
+  defaultCertificate:
+    secretName: wildcard-example-com-tls
