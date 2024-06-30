@@ -1,0 +1,107 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: vllm
+  annotations:
+      cert-manager.io/issuer: letsencrypt-prod-app
+      certmanager.k8s.io/acme-challenge-type: dns01
+      certmanager.k8s.io/acme-dns01-provider: digitalocean
+      konghq.com/override: https-only
+      konghq.com/strip-path: 'true'
+      kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - ariff-vllm.us-east2.mesolitica.com
+      secretName: wildcard-cert-app
+  rules:
+    - host: ariff-vllm.us-east2.mesolitica.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vllm-service
+                port:
+                  number: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vllm-service
+  labels:
+    app: vllm
+spec:
+  ports:
+    - name: vllm-port
+      port: 8000
+      targetPort: 8000
+  clusterIP: None
+  selector:
+    app: vllm
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vllm
+spec:
+  selector:
+    matchLabels:
+      app: vllm
+  serviceName: "vllm-service"
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.azure.com/scalesetpriority
+                    operator: In
+                    values:
+                      - spot
+                  - key: agentpool
+                    operator: In
+                    values:
+                      - gpu3
+      tolerations:
+        - key: kubernetes.azure.com/scalesetpriority
+          operator: Equal
+          value: spot
+          effect: NoSchedule
+        - key: sku
+          operator: Equal
+          value: gpu
+          effect: NoSchedule
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: storage
+              mountPath: /root/.cache/huggingface
+          env:
+            - name: HUGGING_FACE_HUB_TOKEN
+              value: <you hf token>
+          args:
+            ["--model", "mistralai/Mistral-7B-v0.1", "--dtype", "float16", "--api-key", "token-abc123"]
+
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: default
+        resources:
+          requests:
+            storage: 200Gi
