@@ -94,7 +94,7 @@ spec:
             - name: HUGGING_FACE_HUB_TOKEN
               value: <you hf token>
           args:
-            ["--model", "mistralai/Mistral-7B-v0.1", "--dtype", "float16", "--api-key", "token-abc123"]
+            ["--model", "mistralai/Mistral-7B-v0.1", "--dtype", "bfloat16", "--api-key", "token-abc123"]
 
   volumeClaimTemplates:
     - metadata:
