@@ -1,0 +1,9 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: alex
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: alex
+credentials:
+ - alex-key-auth
